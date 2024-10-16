@@ -11,7 +11,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.example.android_films_app.presentation.screen.Screen
+import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.theme.Typography
 
 /**
@@ -24,9 +24,9 @@ import com.example.android_films_app.presentation.theme.Typography
  */
 @Composable
 fun RowScope.AddItem(
-    screen: Screen,
+    screen: ScreenBar,
     destination: NavDestination?,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     NavigationBarItem(
         selected = destination?.hierarchy?.any {

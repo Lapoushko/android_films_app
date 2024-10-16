@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
@@ -20,18 +22,24 @@ import com.example.android_films_app.presentation.navigation.ui.BottomBar
  */
 @Composable
 fun BottomBarScreen(navController: NavHostController) {
+    val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        bottomBar = { BottomBar(navController = navController) }
+        bottomBar = {
+            BottomBar(
+                navController = navController,
+            )
+        }
 
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-        ){
-            BottomBarNavGraph(navController = navController)
+        ) {
+            BottomBarNavGraph(navController = navController, bottomBarState = bottomBarState)
         }
     }
 }

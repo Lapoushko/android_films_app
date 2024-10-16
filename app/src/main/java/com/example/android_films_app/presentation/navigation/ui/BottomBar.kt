@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.android_films_app.presentation.extension.AddItem
-import com.example.android_films_app.presentation.screen.Screen
+import com.example.android_films_app.presentation.screen.model.ScreenBar
 
 /**
  * @author Lapoushko
@@ -16,31 +16,33 @@ import com.example.android_films_app.presentation.screen.Screen
  * Нижний бар
  */
 @Composable
-fun BottomBar(navController: NavHostController){
+fun BottomBar(
+    navController: NavHostController,
+) {
     val items = listOf(
-        Screen.Home,
-        Screen.Films,
-        Screen.Favourite,
-        Screen.Notifications
+        ScreenBar.Home,
+        ScreenBar.Films,
+        ScreenBar.Favourite,
+        ScreenBar.Notifications
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
-
     NavigationBar {
         items.forEach { screen ->
             AddItem(
                 screen = screen,
                 destination = destination,
-                navController = navController
+                navController = navController,
             )
         }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
-fun BottomBarPreview(){
-    BottomBar(navController = rememberNavController())
+fun BottomBarPreview() {
+    BottomBar(
+        navController = rememberNavController()
+    )
 }
