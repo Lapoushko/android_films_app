@@ -7,11 +7,16 @@ import com.example.android_films_app.presentation.screen.model.ScreenFilm
 
 /**
  * @author Lapoushko
+ * Функции экрана всех фильмов
  */
 interface FilmScreenHandler{
     fun onToFilmDetail(filmItem: FilmItem)
 }
 
+/**
+ * Реализация функций всех фильмов
+ * @param navController контроллер навигации
+ */
 class FilmsScreenHandlerImpl(
     val navController: NavHostController,
 ) : FilmScreenHandler {

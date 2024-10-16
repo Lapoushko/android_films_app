@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 
 /**
  * @author Lapoushko
+ * функция, позволяющая вернуться назад по навигации
  */
 
 val NavHostController.canGoBack: Boolean

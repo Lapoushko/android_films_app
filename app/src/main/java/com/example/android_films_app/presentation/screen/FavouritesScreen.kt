@@ -17,8 +17,9 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
 
 /**
  * @author Lapoushko
+ *
+ * Лучшие фильмы
  */
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavouritesScreen(

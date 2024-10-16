@@ -1,7 +1,6 @@
 package com.example.android_films_app.presentation.navigation.graph
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,11 +23,12 @@ import kotlin.reflect.typeOf
 
 /**
  * @author Lapoushko
+ * Граф навигации
+ * @param navController контроллер навигации
  */
 @Composable
-fun BottomBarNavGraph(
+fun NavGraph(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
 ) {
     NavHost(
         navController = navController,

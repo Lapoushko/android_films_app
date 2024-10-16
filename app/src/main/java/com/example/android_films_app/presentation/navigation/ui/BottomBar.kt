@@ -14,6 +14,7 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
  * @author Lapoushko
  *
  * Нижний бар
+ * @param navController контроллер навигации
  */
 @Composable
 fun BottomBar(

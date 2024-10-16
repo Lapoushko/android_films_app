@@ -17,6 +17,8 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
 
 /**
  * @author Lapoushko
+ *
+ * экран уведомлений
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

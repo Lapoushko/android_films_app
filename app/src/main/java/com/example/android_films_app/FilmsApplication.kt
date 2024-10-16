@@ -14,6 +14,8 @@ class FilmsApplication : Application(){
     @Composable
     fun FilmsNavHost(){
         val navController = rememberNavController()
-        BottomBarScreen(navController = navController)
+        BottomBarScreen(
+            navController = navController
+        )
     }
 }

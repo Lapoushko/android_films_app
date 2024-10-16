@@ -16,7 +16,8 @@ import com.example.android_films_app.presentation.handler.HomeScreenHandlerImpl
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 
 /**
- * @author Lapoushko
+ * @author Lapoushkoэ
+ * домашняя страница
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

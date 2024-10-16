@@ -27,6 +27,7 @@ import com.example.android_films_app.presentation.theme.Typography
 
 /**
  * @author Lapoushko
+ * детали фильма
  */
 
 @OptIn(ExperimentalMaterial3Api::class)

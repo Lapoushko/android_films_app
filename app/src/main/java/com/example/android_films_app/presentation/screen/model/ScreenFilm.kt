@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 /**
  * @author Lapoushko
  *
- * Экран фильма
+ * Экран деталей фильма
  */
 sealed class ScreenFilm {
     @Serializable

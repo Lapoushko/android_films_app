@@ -9,6 +9,7 @@ import kotlinx.serialization.json.Json
 
 /**
  * @author Lapoushko
+ * Кастомный NavType для навигации сложного объекта FilmItem
  */
 val CustomNavType = object : NavType<FilmItem>(isNullableAllowed = false){
     override fun get(bundle: Bundle, key: String): FilmItem {
