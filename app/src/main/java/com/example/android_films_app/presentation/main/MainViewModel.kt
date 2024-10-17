@@ -16,6 +16,9 @@ import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ * Вью модель для работы с экраном фильма
+ * @param subscribeFilmUseCase Юзкейс одного фильма
+ * @param subscribeAllFilmsUseCase юзкейс всех фильмов
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -29,6 +32,9 @@ class MainViewModel @Inject constructor(
     private val _film: MutableStateFlow<FilmItem?> = MutableStateFlow(null)
     val film: StateFlow<FilmItem?> = _film.asStateFlow()
 
+    /**
+     * Получить все фильмы
+     */
     init {
         viewModelScope.launch {
             _films.value =
@@ -39,6 +45,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Получить информацию о фильме
+     *
+     * P.S. Функция пока не используется. думаю понадобится в будущем
+     * @param id айди фильма
+     */
     fun getDetail(id: Long) {
         viewModelScope.launch {
             _film.value =

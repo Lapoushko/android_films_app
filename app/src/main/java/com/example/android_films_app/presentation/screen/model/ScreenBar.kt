@@ -32,18 +32,28 @@ sealed class ScreenBar(
         unsetIcon = FILMS_UNSET_ICON
     )
 
+    /**
+     * Экран домашней страцицы
+     */
     data object Home : ScreenBar(
         route = HOME_ROUTE,
         title = HOME_TITLE,
         setIcon = HOME_SET_ICON,
         unsetIcon = HOME_UNSET_ICON
     )
+    /**
+     * Экран лучших фильмов
+     */
     data object Favourite : ScreenBar(
         route = FAVOURITE_ROUTE,
         title = FAVOURITE_TITLE,
         setIcon = FAVOURITE_SET_ICON,
         unsetIcon = FAVOURITE_UNSET_ICON
     )
+
+    /**
+     * Экран уведомлений
+     */
     data object Notifications : ScreenBar(
         route = NOTIFICATIONS_ROUTE,
         title = NOTIFICATIONS_TITLE,

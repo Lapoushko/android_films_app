@@ -1,17 +1,27 @@
 package com.example.android_films_app.presentation.mapper
 
 import com.example.android_films_app.domain.entity.Film
+import com.example.android_films_app.presentation.extension.toFormattedUri
 import com.example.android_films_app.presentation.model.FilmItem
 import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ * перевод фильмов Domain в FilmItem
  */
-interface FilmToUiItemMapper{
+interface FilmToUiItemMapper {
+    /**
+     * Перевод фильмов
+     * @param film фильм domain
+     * @return film ui
+     */
     operator fun invoke(film: Film): FilmItem
 }
 
-class FilmToUiItemMapperImpl @Inject constructor(): FilmToUiItemMapper {
+/**
+ * Реализация одноименного интерфейса
+ */
+class FilmToUiItemMapperImpl @Inject constructor() : FilmToUiItemMapper {
     override fun invoke(film: Film): FilmItem {
         return FilmItem(
             name = film.name,
@@ -20,7 +30,8 @@ class FilmToUiItemMapperImpl @Inject constructor(): FilmToUiItemMapper {
             budget = film.budget,
             genres = film.genres,
             description = film.description,
-            imageUri = film.imageUri
+            imageUri = film.imageUri.toString()
+                .toFormattedUri() // костыль для того, чтобы не ломался маршрут к новому экрану /* TODO починить
         )
     }
 }

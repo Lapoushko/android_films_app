@@ -7,12 +7,16 @@ import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ * Юзкейс фильма
  */
-
 interface SubscribeFilmUseCase{
     suspend fun getFilm(id: Long) : Flow<Film>
 }
 
+/**
+ * Реализация одноименного юзкейса
+ * @param filmsDataRepository репозиторий
+ */
 class SubscribeFilmUseCaseImpl @Inject constructor(
     val filmsDataRepository: FilmsDataRepository
 ): SubscribeFilmUseCase {

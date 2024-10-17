@@ -9,6 +9,8 @@ import kotlinx.serialization.encoding.Encoder
 
 /**
  * @author Lapoushko
+ *
+ * Сериализатор для Uri
  */
 object URISerializer : KSerializer<Uri> {
     override val descriptor = PrimitiveSerialDescriptor("Uri", PrimitiveKind.STRING)

@@ -6,13 +6,25 @@ import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ * Маппер для фильмов из бд в фильмы domain
  */
 interface FilmsDbToFilmsMapper {
+    /**
+     * @param filmsDb список фильмов бд
+     * @return перевод в список фильмов domain
+     */
     fun invoke(filmsDb: List<FilmDb>): List<Film>
 
+    /**
+     * @param film фильм из бд
+     * @return фильм из domain
+     */
     fun invoke(film: FilmDb): Film
 }
 
+/**
+ * Реализация интерфейса FilmsDbToFilmsMapper
+ */
 class FilmsDbToFilmsMapperImpl @Inject constructor() : FilmsDbToFilmsMapper {
     override fun invoke(filmsDb: List<FilmDb>): List<Film> {
         return filmsDb.map { filmDb ->

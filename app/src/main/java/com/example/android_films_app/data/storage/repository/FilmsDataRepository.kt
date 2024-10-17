@@ -10,12 +10,27 @@ import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ *
+ * Репозиторий фильмов
  */
 interface FilmsDataRepository{
+    /**
+     * Получить все фильмы
+     * @return Flow всех фильмов domain
+     */
     suspend fun getFilms(): Flow<List<Film>>
 
+    /**
+     * Получить фильм domain
+     * @return Flow фильма domain
+     */
     suspend fun getFilm(id: Long): Flow<Film>
 }
+
+/**
+ * @param filmsDao дао для фильмов
+ * @param filmDbToFilmMapper маппер фильмов
+ */
 class FilmsDataRepositoryImpl @Inject constructor(
     val filmsDao: FilmsDao,
     val filmDbToFilmMapper: FilmsDbToFilmsMapper

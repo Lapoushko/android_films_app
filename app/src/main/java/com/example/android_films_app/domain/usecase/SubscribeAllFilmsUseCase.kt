@@ -8,12 +8,21 @@ import javax.inject.Inject
 
 /**
  * @author Lapoushko
+ *
+ * Юзкейс всех фильмов
  */
-
 interface SubscribeAllFilmsUseCase {
+    /**
+     * Получить все фильмы domain
+     * @return Flow списка фильмов
+     */
     suspend fun getFilms(): Flow<List<Film>>
 }
 
+/**
+ * Реализация одноименного юзкейса
+ * @param filmsDataRepository репозиторий с фильмами
+ */
 class SubscribeAllFilmsUseCaseImpl @Inject constructor(
     val filmsDataRepository: FilmsDataRepository
 ) : SubscribeAllFilmsUseCase {

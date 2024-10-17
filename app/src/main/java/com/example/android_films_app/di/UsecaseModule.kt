@@ -13,10 +13,12 @@ import javax.inject.Singleton
 
 /**
  * @author Lapoushko
+ *
+ * Модуль для usecases
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object DomainModule {
+object UsecaseModule {
     @Singleton
     @Provides
     fun provideSubscribeAllFilmsUseCase(

@@ -10,6 +10,7 @@ import javax.inject.Singleton
 
 /**
  * @author Lapoushko
+ * Модуль для DAO
  */
 @Module
 @InstallIn(SingletonComponent::class)

@@ -12,6 +12,8 @@ import javax.inject.Singleton
 
 /**
  * @author Lapoushko
+ *
+ * Модуль для мапперов
  */
 @Module
 @InstallIn(SingletonComponent::class)
