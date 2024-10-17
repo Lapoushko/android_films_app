@@ -1,6 +1,8 @@
 package com.example.android_films_app.presentation.model
 
+import android.net.Uri
 import android.os.Parcelable
+import com.example.android_films_app.util.URISerializer
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -18,12 +20,13 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 @Parcelize
-class FilmItem(
+data class FilmItem(
     val name: String,
     val country: String? = "Страна не указана",
     val directors: List<String>,
     val budget: Long = 0L,
     val genres: List<String>,
     val description: String = "",
-    val imageUri: String = "https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/d2f33a70-7c85-4884-8d17-01e86e763732/1920x"
+    @Serializable(with = URISerializer::class)
+    val imageUri: Uri
 ) : Parcelable

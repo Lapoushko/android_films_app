@@ -1,5 +1,6 @@
 package com.example.android_films_app.presentation.screen
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -67,7 +68,7 @@ fun FilmDetailsScreen(
 }
 
 @Composable
-private fun FilmPreviewImage(imageUri: String?){
+private fun FilmPreviewImage(imageUri: Uri){
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
@@ -142,6 +143,6 @@ fun FilmDetailScreenPreview() {
         filmDetailScreenHandler = FilmDetailScreenHandlerImpl(
             rememberNavController()
         ),
-        film = FilmItem("Название", genres = listOf(), directors = listOf())
+        film = FilmItem("Название", genres = listOf(), directors = listOf(), imageUri = Uri.parse(""))
     )
 }

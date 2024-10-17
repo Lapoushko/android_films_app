@@ -1,11 +1,11 @@
 package com.example.android_films_app.presentation.navigation.graph
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.android_films_app.presentation.extension.toFormattedUri
 import com.example.android_films_app.presentation.handler.FavouritesScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmDetailScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
@@ -50,7 +50,16 @@ fun NavGraph(
                 filmDetailScreenHandler = FilmDetailScreenHandlerImpl(
                     navController = navController
                 ),
-                film = film.film
+                film = FilmItem(
+                    name = film.film.name,
+                    country = film.film.country,
+                    directors = film.film.directors,
+                    genres = film.film.genres,
+                    description = film.film.description,
+                    budget = film.film.budget,
+                    imageUri = film.film.imageUri.toString()
+                        .toFormattedUri(oldChar = '\\', newChar = '/')
+                )
             )
         }
         composable(route = ScreenBar.Home.route) {
