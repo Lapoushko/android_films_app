@@ -18,9 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
-import com.example.android_films_app.presentation.model.FilmItem
+import com.example.android_films_app.presentation.main.MainViewModel
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.theme.Typography
 
@@ -32,24 +33,9 @@ import com.example.android_films_app.presentation.theme.Typography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilmsScreen(
-    filmsScreenHandler: FilmsScreenHandlerImpl
+    filmsScreenHandler: FilmsScreenHandlerImpl,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
-    val films =
-        generateSequence(1)
-        { it + 1 }
-            .map { index ->
-                FilmItem(
-                    name = "Фильм - $index",
-                    genres = listOf("Хоррор","Комедия"),
-//                    description = "Пострадав в результате несчастного случая, богатый аристократ Филипп нанимает в помощники человека, который менее всего подходит для этой работы, – молодого жителя предместья Дрисса, только что освободившегося из тюрьмы. Несмотря на то, что Филипп прикован к инвалидному креслу, Дриссу удается привнести в размеренную жизнь аристократа дух приключений.",
-//                    imageUri = "https://avatars.mds.yandex.net/get-kinopoisk-image/1900788/bd3c56b3-3681-4137-9335-b849c42ed6ea/1920x",
-                    directors = listOf("Оливье Накаш", "Эрик Толедано"),
-                )
-
-            }
-            .take(10)
-            .toList()
-
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -66,7 +52,7 @@ fun FilmsScreen(
                 modifier = Modifier
                     .padding(paddingValues)
             ) {
-                items(films) { film ->
+                items(viewModel.films.value) { film ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -79,7 +65,9 @@ fun FilmsScreen(
                         elevation = CardDefaults.cardElevation(
                             defaultElevation = 6.dp
                         ),
-                        onClick = { filmsScreenHandler.onToFilmDetail(film) }
+                        onClick = {
+                            filmsScreenHandler.onToFilmDetail(film)
+                        }
                     ) {
                         Column {
                             Text(
@@ -102,6 +90,7 @@ fun FilmsScreen(
 fun FilmsScreenPreview() {
     FilmsScreen(
         filmsScreenHandler = FilmsScreenHandlerImpl(
-            rememberNavController())
+            rememberNavController()
+        )
     )
 }
