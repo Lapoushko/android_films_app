@@ -1,11 +1,13 @@
 package com.example.android_films_app.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_films_app.domain.usecase.SubscribeAllFilmsUseCase
 import com.example.android_films_app.domain.usecase.SubscribeFilmUseCase
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
+import com.example.android_films_app.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +38,7 @@ class MainViewModel @Inject constructor(
      * Получить все фильмы
      */
     init {
+        Log.d(Constants.LOG_KEY, "MainViewModel init")
         viewModelScope.launch {
             _films.value =
                 subscribeAllFilmsUseCase
@@ -43,6 +46,10 @@ class MainViewModel @Inject constructor(
                     .first()
                     .map { uiMapper(it) }
         }
+    }
+
+    override fun onCleared() {
+        Log.d(Constants.LOG_KEY, "MainViewModel cleared")
     }
 
     /**
