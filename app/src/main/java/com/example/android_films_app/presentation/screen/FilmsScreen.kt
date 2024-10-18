@@ -46,7 +46,7 @@ fun FilmsScreen(
                         text = ScreenBar.Films.title ?: "Нет названия"
                     )
                 })
-            }
+            },
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier

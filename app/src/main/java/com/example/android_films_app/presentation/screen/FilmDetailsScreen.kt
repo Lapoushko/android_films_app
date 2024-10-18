@@ -8,14 +8,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,11 +48,23 @@ fun FilmDetailsScreen(
     ) {
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(title = {
-                    Text(
-                        text = film.name
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = film.name
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { filmDetailScreenHandler.onToBack() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back")
+                        }
+                    },
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(
+                        containerColor = Color.Yellow,
                     )
-                })
+                )
             }
         ) { innerPadding ->
             Column(
@@ -68,7 +86,7 @@ fun FilmDetailsScreen(
 }
 
 @Composable
-private fun FilmPreviewImage(imageUri: Uri){
+private fun FilmPreviewImage(imageUri: Uri) {
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,7 +97,7 @@ private fun FilmPreviewImage(imageUri: Uri){
 }
 
 @Composable
-private fun Country(country: String?){
+private fun Country(country: String?) {
     Text(
         modifier = Modifier
             .padding(20.dp),
@@ -91,7 +109,7 @@ private fun Country(country: String?){
 }
 
 @Composable
-private fun Genres(genres: List<String>){
+private fun Genres(genres: List<String>) {
     Text(
         modifier = Modifier
             .padding(20.dp),
@@ -103,7 +121,7 @@ private fun Genres(genres: List<String>){
 }
 
 @Composable
-private fun Directors(directors: List<String>){
+private fun Directors(directors: List<String>) {
     Text(
         modifier = Modifier
             .padding(20.dp),
@@ -115,7 +133,7 @@ private fun Directors(directors: List<String>){
 }
 
 @Composable
-private fun Budget(budget: Long){
+private fun Budget(budget: Long) {
     Text(
         modifier = Modifier
             .padding(20.dp),
@@ -127,7 +145,7 @@ private fun Budget(budget: Long){
 }
 
 @Composable
-private fun Description(description: String?){
+private fun Description(description: String?) {
     Text(
         modifier = Modifier
             .padding(8.dp),
@@ -143,6 +161,11 @@ fun FilmDetailScreenPreview() {
         filmDetailScreenHandler = FilmDetailScreenHandlerImpl(
             rememberNavController()
         ),
-        film = FilmItem("Название", genres = listOf(), directors = listOf(), imageUri = Uri.parse(""))
+        film = FilmItem(
+            "Название",
+            genres = listOf(),
+            directors = listOf(),
+            imageUri = Uri.parse("")
+        )
     )
 }
