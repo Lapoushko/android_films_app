@@ -162,10 +162,13 @@ fun FilmDetailScreenPreview() {
             rememberNavController()
         ),
         film = FilmItem(
-            "Название",
-            genres = listOf(),
-            directors = listOf(),
-            imageUri = Uri.parse("")
+            name = "",
+            genres = emptyList(),
+            directors = emptyList(),
+            budget = 0L,
+            country = "",
+            imageUri = Uri.parse(""),
+            description = "",
         )
     )
 }
