@@ -16,10 +16,10 @@ import android.net.Uri
  */
 class Film(
     val name: String,
-    val country: String? = "Страна не указана",
+    val country: String,
     val directors: List<String>,
-    val budget: Long = 0L,
+    val budget: Long,
     val genres: List<String>,
-    val description: String = "",
+    val description: String,
     val imageUri: Uri
 )

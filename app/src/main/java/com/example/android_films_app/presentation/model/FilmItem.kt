@@ -22,11 +22,11 @@ import kotlinx.serialization.Serializable
 @Parcelize
 data class FilmItem(
     val name: String,
-    val country: String? = "Страна не указана",
+    val country: String,
     val directors: List<String>,
-    val budget: Long = 0L,
+    val budget: Long,
     val genres: List<String>,
-    val description: String = "",
+    val description: String,
     @Serializable(with = URISerializer::class)
     val imageUri: Uri
 ) : Parcelable
