@@ -1,6 +1,6 @@
 package com.example.android_films_app.domain.usecase
 
-import com.example.android_films_app.data.storage.repository.FilmsDataRepository
+import com.example.android_films_app.domain.repository.FilmsRepository
 import com.example.android_films_app.domain.entity.Film
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,13 +21,13 @@ interface SubscribeAllFilmsUseCase {
 
 /**
  * Реализация одноименного юзкейса
- * @param filmsDataRepository репозиторий с фильмами
+ * @param filmsRepository репозиторий с фильмами
  */
 class SubscribeAllFilmsUseCaseImpl @Inject constructor(
-    val filmsDataRepository: FilmsDataRepository
+    val filmsRepository: FilmsRepository
 ) : SubscribeAllFilmsUseCase {
     override suspend fun getFilms(): Flow<List<Film>> {
-        return filmsDataRepository.getFilms().map { films ->
+        return filmsRepository.getFilms().map { films ->
             films.ifEmpty {
                 emptyList()
             }

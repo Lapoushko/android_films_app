@@ -1,14 +1,11 @@
 package com.example.android_films_app.di
 
-import com.example.android_films_app.data.storage.dao.FilmsDao
-import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
-import com.example.android_films_app.data.storage.repository.FilmsDataRepository
-import com.example.android_films_app.data.storage.repository.FilmsDataRepositoryImpl
+import com.example.android_films_app.data.network.repository.FilmsRepositoryImpl
+import com.example.android_films_app.domain.repository.FilmsRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 /**
  * @author Lapoushko
@@ -17,13 +14,10 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    @Singleton
-    @Provides
-    fun provideFilmsDataRepository(
-        filmsDao: FilmsDao,
-        filmDbToFilmMapper: FilmsDbToFilmsMapper
-    ): FilmsDataRepository {
-        return FilmsDataRepositoryImpl(filmsDao = filmsDao, filmDbToFilmMapper = filmDbToFilmMapper)
-    }
+abstract class RepositoryModule {
+
+    @Binds
+    abstract fun bindFilmsRepository(
+        impl: FilmsRepositoryImpl
+    ): FilmsRepository
 }
