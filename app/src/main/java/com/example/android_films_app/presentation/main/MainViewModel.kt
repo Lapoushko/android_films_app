@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_films_app.domain.usecase.SubscribeAllFilmsUseCase
-import com.example.android_films_app.domain.usecase.SubscribeFilmUseCase
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.util.Constants
@@ -25,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val subscribeAllFilmsUseCase: SubscribeAllFilmsUseCase,
-    private val subscribeFilmUseCase: SubscribeFilmUseCase,
+//    private val subscribeFilmUseCase: SubscribeFilmUseCase,
     val uiMapper: FilmToUiItemMapper
 ) : ViewModel() {
     private val _films: MutableStateFlow<List<FilmItem>> = MutableStateFlow(emptyList())
@@ -52,20 +51,20 @@ class MainViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "MainViewModel cleared")
     }
 
-    /**
-     * Получить информацию о фильме
-     *
-     * P.S. Функция пока не используется. думаю понадобится в будущем
-     * @param id айди фильма
-     */
-    fun getDetail(id: Long) {
-        viewModelScope.launch {
-            _film.value =
-                uiMapper(
-                    subscribeFilmUseCase
-                        .getFilm(id = id)
-                        .first()
-                )
-        }
-    }
+//    /**
+//     * Получить информацию о фильме
+//     *
+//     * P.S. Функция пока не используется. думаю понадобится в будущем
+//     * @param id айди фильма
+//     */
+//    fun getDetail(id: Long) {
+//        viewModelScope.launch {
+//            _film.value =
+//                uiMapper(
+//                    subscribeFilmUseCase
+//                        .getFilm(id = id)
+//                        .first()
+//                )
+//        }
+//    }
 }
