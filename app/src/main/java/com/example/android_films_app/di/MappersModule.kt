@@ -1,5 +1,9 @@
 package com.example.android_films_app.di
 
+import com.example.android_films_app.data.network.mapper.FilmApiToDbMapper
+import com.example.android_films_app.data.network.mapper.FilmApiToDbMapperImpl
+import com.example.android_films_app.data.network.mapper.FilmRetrofitToApiMapper
+import com.example.android_films_app.data.network.mapper.FilmRetrofitToApiMapperImpl
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapperImpl
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
@@ -27,7 +31,19 @@ object MappersModule {
 
     @Singleton
     @Provides
-    fun provideFilmToUiItemMapper() : FilmToUiItemMapper{
+    fun provideFilmToUiItemMapper() : FilmToUiItemMapper {
         return FilmToUiItemMapperImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFilmApiToDbMapper(): FilmApiToDbMapper{
+        return FilmApiToDbMapperImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFilmRetrofitToApiMapper(): FilmRetrofitToApiMapper{
+        return FilmRetrofitToApiMapperImpl()
     }
 }
