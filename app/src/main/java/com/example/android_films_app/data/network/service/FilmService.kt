@@ -25,6 +25,6 @@ interface FilmService {
     @GET("/v1.4/movie/{id}")
     suspend fun getFilmById(
         @Path("id") id: Long,
-        @Query("token") token: String = "YG8DG9Y-R4H49YY-JYFGKNE-0V4JJZ9"
+        @Query("token") token: String = ""
         ) : FilmRetrofit
 }
