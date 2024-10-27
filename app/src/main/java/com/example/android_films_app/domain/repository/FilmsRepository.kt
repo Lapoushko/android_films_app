@@ -15,12 +15,6 @@ interface FilmsRepository{
      */
     suspend fun getFilms(): Flow<List<Film>>
 
-    /**
-     * получить статут интернета
-     * @return текущий статус
-     */
-    suspend fun getStatusInternet(): Flow<Boolean>
-
 //    /**
 //     * Получить фильм domain
 //     * @return Flow фильма domain
