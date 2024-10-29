@@ -8,10 +8,12 @@ import com.example.android_films_app.data.storage.dao.FilmsDao
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.domain.repository.FilmsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -31,27 +33,26 @@ class FilmsRepositoryImpl @Inject constructor(
     private val isNetworkAvailable = MutableStateFlow(false)
 
     override suspend fun getFilms(): Flow<List<Film>> {
-        val filmRetrofit =
-//                filmService.getFilmsByName(
-//                    page = 1,
-//                    limit = 1,
-//                    nameSearch = "Форсаж"
-//                )
-            filmService.getFilmById(id = 666)
-        val filmApi = filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
-        filmsDao.insertFilm(
-            filmApiToDbMapper.invoke(
-                filmApi = filmApi
+        return withContext(Dispatchers.IO) {
+            val filmRetrofit =
+                filmService.getFilmById(id = 666)
+            val filmApi = filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
+            filmsDao.insertFilm(
+                filmApiToDbMapper.invoke(
+                    filmApi = filmApi
+                )
             )
-        )
-        return flow {
-            emit(filmDbToFilmMapper.invoke(filmsDb = filmsDao.getFilms().first()))
+            flow {
+                emit(filmDbToFilmMapper.invoke(filmsDb = filmsDao.getFilms().first()))
+            }
         }
     }
 
     override suspend fun getStatusInternet(): Flow<Boolean> {
-        isNetworkAvailable.value = internetChecker.isNetworkAvailable()
-        return isNetworkAvailable
+        return withContext(Dispatchers.IO) {
+            isNetworkAvailable.value = internetChecker.isNetworkAvailable()
+            isNetworkAvailable
+        }
     }
 
 //    override suspend fun getFilm(id: Long): Flow<Film> {
