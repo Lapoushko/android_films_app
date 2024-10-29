@@ -27,7 +27,7 @@ class FilmToUiItemMapperImpl @Inject constructor() : FilmToUiItemMapper {
             name = film.name,
             country = film.country,
             directors = film.directors,
-            budget = film.budget,
+            budget = if (film.budget == 0L) "Не указан" else film.budget.toString(),
             genres = film.genres,
             description = film.description,
             imageUri = film.imageUri.toString()

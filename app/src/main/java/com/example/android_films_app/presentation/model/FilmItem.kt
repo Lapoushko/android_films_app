@@ -24,7 +24,7 @@ data class FilmItem(
     val name: String,
     val country: String,
     val directors: List<String>,
-    val budget: Long,
+    val budget: String,
     val genres: List<String>,
     val description: String,
     @Serializable(with = URISerializer::class)

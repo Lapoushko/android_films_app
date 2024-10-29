@@ -34,14 +34,28 @@ class FilmsRepositoryImpl @Inject constructor(
 
     override suspend fun getFilms(): Flow<List<Film>> {
         return withContext(Dispatchers.IO) {
-            val filmRetrofit =
-                filmService.getFilmById(id = 666)
-            val filmApi = filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
-            filmsDao.insertFilm(
-                filmApiToDbMapper.invoke(
-                    filmApi = filmApi
-                )
+            getFilmsByName(page = 1, limit = 20, nameSearch = "Форсаж")
+        }
+    }
+
+    private suspend fun getFilmsByName(
+        page: Int = 1,
+        limit: Int = 5,
+        nameSearch: String
+    ) : Flow<List<Film>>{
+        return withContext(Dispatchers.IO) {
+            val listFilmRetrofit = filmService.getFilmsByName(
+                page = page,
+                limit = limit,
+                nameSearch = nameSearch
             )
+            val listFilmApi =
+                listFilmRetrofit.docs?.map { filmRetrofit ->
+                    filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
+                }
+            listFilmApi?.forEach { filmApi ->
+                filmsDao.insertFilm(filmApiToDbMapper.invoke(filmApi = filmApi))
+            }
             flow {
                 emit(filmDbToFilmMapper.invoke(filmsDb = filmsDao.getFilms().first()))
             }

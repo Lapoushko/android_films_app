@@ -58,7 +58,8 @@ fun FilmDetailsScreen(
                         IconButton(onClick = { filmDetailScreenHandler.onToBack() }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "Back")
+                                contentDescription = "Back"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -133,11 +134,11 @@ private fun Directors(directors: List<String>) {
 }
 
 @Composable
-private fun Budget(budget: Long) {
+private fun Budget(budget: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Бюджет: \$${budget}",
+        text = "Бюджет: ${budget}",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -165,7 +166,7 @@ fun FilmDetailScreenPreview() {
             name = "",
             genres = emptyList(),
             directors = emptyList(),
-            budget = 0L,
+            budget = "",
             country = "",
             imageUri = Uri.parse(""),
             description = "",

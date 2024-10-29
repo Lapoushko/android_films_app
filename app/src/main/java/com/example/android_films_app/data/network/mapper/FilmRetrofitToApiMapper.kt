@@ -17,12 +17,12 @@ class FilmRetrofitToApiMapperImpl @Inject constructor() : FilmRetrofitToApiMappe
         return FilmApi(
             id = filmRetrofit.id,
             name = filmRetrofit.name,
-            country = filmRetrofit.countries?.joinToString { it.name ?: "" },
+            country = filmRetrofit.countries?.joinToString { it.name ?: "Не указаны" },
             directors = filmRetrofit.persons?.filter { it.profession == "режиссеры" }
-                ?.map { it.name ?: "" },
+                ?.map { it.name ?: "Не указаны" },
             budget = filmRetrofit.budget?.value,
-            genres = filmRetrofit.genres?.map { it.name ?: "" },
-            description = filmRetrofit.description,
+            genres = filmRetrofit.genres?.map { it.name ?: "Не указаны" },
+            description = filmRetrofit.description ?: "Не указано",
             imageUri = filmRetrofit.poster?.previewUrl?.let { Uri.parse(it) } ?: Uri.EMPTY
         )
     }
