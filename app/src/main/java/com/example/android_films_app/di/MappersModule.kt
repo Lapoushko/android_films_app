@@ -1,9 +1,9 @@
 package com.example.android_films_app.di
 
-import com.example.android_films_app.data.network.mapper.FilmApiToDbMapper
-import com.example.android_films_app.data.network.mapper.FilmApiToDbMapperImpl
-import com.example.android_films_app.data.network.mapper.FilmRetrofitToApiMapper
-import com.example.android_films_app.data.network.mapper.FilmRetrofitToApiMapperImpl
+import com.example.android_films_app.data.network.mapper.FilmResponseToDbMapper
+import com.example.android_films_app.data.network.mapper.FilmResponseToDbMapperImpl
+import com.example.android_films_app.data.network.mapper.FilmRetrofitToResponseMapper
+import com.example.android_films_app.data.network.mapper.FilmRetrofitToResponseMapperImpl
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapperImpl
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
@@ -37,13 +37,13 @@ object MappersModule {
 
     @Singleton
     @Provides
-    fun provideFilmApiToDbMapper(): FilmApiToDbMapper{
-        return FilmApiToDbMapperImpl()
+    fun provideFilmApiToDbMapper(): FilmResponseToDbMapper{
+        return FilmResponseToDbMapperImpl()
     }
 
     @Singleton
     @Provides
-    fun provideFilmRetrofitToApiMapper(): FilmRetrofitToApiMapper{
-        return FilmRetrofitToApiMapperImpl()
+    fun provideFilmRetrofitToApiMapper(): FilmRetrofitToResponseMapper{
+        return FilmRetrofitToResponseMapperImpl()
     }
 }

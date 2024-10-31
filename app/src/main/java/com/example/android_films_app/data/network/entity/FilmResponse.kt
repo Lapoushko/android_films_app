@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
  * @param imageUri путь до изображения фильма
  */
 @Serializable
-class FilmApi(
+class FilmResponse(
     val id: Long?,
     val name: String?,
     val country: String? ,

@@ -1,7 +1,7 @@
 package com.example.android_films_app.data.network.repository
 
-import com.example.android_films_app.data.network.mapper.FilmApiToDbMapper
-import com.example.android_films_app.data.network.mapper.FilmRetrofitToApiMapper
+import com.example.android_films_app.data.network.mapper.FilmResponseToDbMapper
+import com.example.android_films_app.data.network.mapper.FilmRetrofitToResponseMapper
 import com.example.android_films_app.data.network.service.FilmService
 import com.example.android_films_app.data.network.util.InternetChecker
 import com.example.android_films_app.data.storage.dao.FilmsDao
@@ -25,8 +25,8 @@ import javax.inject.Inject
 class FilmsRepositoryImpl @Inject constructor(
     private val filmService: FilmService,
     private val filmsDao: FilmsDao,
-    private val filmRetrofitMapper: FilmRetrofitToApiMapper,
-    private val filmApiToDbMapper: FilmApiToDbMapper,
+    private val filmRetrofitMapper: FilmRetrofitToResponseMapper,
+    private val filmResponseToDbMapper: FilmResponseToDbMapper,
     private val filmDbToFilmMapper: FilmsDbToFilmsMapper,
     private val internetChecker: InternetChecker
 ) : FilmsRepository {
@@ -54,7 +54,7 @@ class FilmsRepositoryImpl @Inject constructor(
                     filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
                 }
             listFilmApi?.forEach { filmApi ->
-                filmsDao.insertFilm(filmApiToDbMapper.invoke(filmApi = filmApi))
+                filmsDao.insertFilm(filmResponseToDbMapper.invoke(filmResponse = filmApi))
             }
             flow {
                 emit(filmDbToFilmMapper.invoke(filmsDb = filmsDao.getFilms().first()))

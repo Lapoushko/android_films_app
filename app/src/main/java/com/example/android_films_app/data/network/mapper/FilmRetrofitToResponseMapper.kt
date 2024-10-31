@@ -1,20 +1,20 @@
 package com.example.android_films_app.data.network.mapper
 
 import android.net.Uri
-import com.example.android_films_app.data.network.entity.FilmApi
+import com.example.android_films_app.data.network.entity.FilmResponse
 import com.example.android_films_app.data.network.entity.retrofit.FilmRetrofit
 import javax.inject.Inject
 
 /**
  * @author Lapoushko
  */
-interface FilmRetrofitToApiMapper {
-    operator fun invoke(filmRetrofit: FilmRetrofit): FilmApi
+interface FilmRetrofitToResponseMapper {
+    operator fun invoke(filmRetrofit: FilmRetrofit): FilmResponse
 }
 
-class FilmRetrofitToApiMapperImpl @Inject constructor() : FilmRetrofitToApiMapper {
-    override fun invoke(filmRetrofit: FilmRetrofit): FilmApi {
-        return FilmApi(
+class FilmRetrofitToResponseMapperImpl @Inject constructor() : FilmRetrofitToResponseMapper {
+    override fun invoke(filmRetrofit: FilmRetrofit): FilmResponse {
+        return FilmResponse(
             id = filmRetrofit.id,
             name = filmRetrofit.name,
             country = filmRetrofit.countries?.joinToString { it.name ?: "Не указаны" },
