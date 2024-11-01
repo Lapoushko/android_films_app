@@ -17,12 +17,12 @@ class FilmRetrofitToResponseMapperImpl @Inject constructor() : FilmRetrofitToRes
         return FilmResponse(
             id = filmRetrofit.id,
             name = filmRetrofit.name,
-            country = filmRetrofit.countries?.joinToString { it.name ?: "Не указаны" },
+            country = filmRetrofit.countries?.joinToString { it.name.toString() },
             directors = filmRetrofit.persons?.filter { it.profession == "режиссеры" }
-                ?.map { it.name ?: "Не указаны" },
+                ?.map { it.name.toString() },
             budget = filmRetrofit.budget?.value,
-            genres = filmRetrofit.genres?.map { it.name ?: "Не указаны" },
-            description = filmRetrofit.description ?: "Не указано",
+            genres = filmRetrofit.genres?.map { it.name.toString() },
+            description = filmRetrofit.description,
             imageUri = filmRetrofit.poster?.previewUrl?.let { Uri.parse(it) } ?: Uri.EMPTY
         )
     }
