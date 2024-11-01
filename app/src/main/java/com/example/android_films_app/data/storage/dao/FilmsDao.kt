@@ -19,33 +19,42 @@ interface FilmsDao {
     suspend fun getFilms(): Flow<List<FilmDb>>
 
     /**
-     * Фильмы по айди
-     * @param id айди фильма
-     * @return фильм
+     * Вставка нового фильма
      */
-    suspend fun getFilm(id: Long): Flow<FilmDb>
+    suspend fun insertFilm(filmDb: FilmDb)
+
+//    /**
+//     * Фильмы по айди
+//     * @param id айди фильма
+//     * @return фильм
+//     */
+//    suspend fun getFilm(id: Long): Flow<FilmDb>
 }
 
 /**
  * Пример реализации
  */
 class FilmsDaoImpl @Inject constructor() : FilmsDao {
-    private val exampleLocalData = ExampleLocalData()
+    private val films = ExampleLocalData().films
 
     override suspend fun getFilms(): Flow<List<FilmDb>> {
         return flow {
-            exampleLocalData.films
-            emit(exampleLocalData.films)
+            films
+            emit(films)
         }
     }
 
-    override suspend fun getFilm(id: Long): Flow<FilmDb> {
-        return flow {
-            val films = exampleLocalData.films
-            val foundFilm = films.find { it.id == id }
-            if (foundFilm != null) {
-                emit(foundFilm)
-            }
-        }
+    override suspend fun insertFilm(filmDb: FilmDb) {
+        films.add(filmDb)
     }
+
+//    override suspend fun getFilm(id: Long): Flow<FilmDb> {
+//        return flow {
+//            val films = exampleLocalData.films
+//            val foundFilm = films.find { it.id == id }
+//            if (foundFilm != null) {
+//                emit(foundFilm)
+//            }
+//        }
+//    }
 }

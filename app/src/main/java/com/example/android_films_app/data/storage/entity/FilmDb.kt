@@ -4,13 +4,10 @@ import android.net.Uri
 
 /**
  * @author Lapoushko
- */
-/**
- * @author Lapoushko
  *
  * Фильм
  * @param id айди фильма
- * @param country страна создания
+ * @param countries страна создания
  * @param directors режисёры
  * @param budget бюджет фильма
  * @param name имя фильма
@@ -19,12 +16,12 @@ import android.net.Uri
  * @param imageUri путь до изображения фильма
  */
 class FilmDb(
-    val id: Long,
-    val name: String,
-    val country: String? = "Страна не указана",
-    val directors: List<String>,
-    val budget: Long = 0L,
-    val genres: List<String>,
-    val description: String = "",
-    val imageUri: Uri
+    val id: Long?,
+    val name: String?,
+    val countries: List<String>?,
+    val directors: List<String>?,
+    val budget: Long?,
+    val genres: List<String>?,
+    val description: String?,
+    val imageUri: Uri?
 )

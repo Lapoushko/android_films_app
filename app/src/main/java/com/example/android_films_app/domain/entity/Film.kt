@@ -6,7 +6,7 @@ import android.net.Uri
  * @author Lapoushko
  *
  * Фильм доменного слоя
- * @param country страна создания
+ * @param countries страна создания
  * @param directors режисёры
  * @param budget бюджет фильма
  * @param name имя фильма
@@ -16,10 +16,10 @@ import android.net.Uri
  */
 class Film(
     val name: String,
-    val country: String? = "Страна не указана",
+    val countries: List<String>,
     val directors: List<String>,
-    val budget: Long = 0L,
+    val budget: Long,
     val genres: List<String>,
-    val description: String = "",
+    val description: String,
     val imageUri: Uri
 )

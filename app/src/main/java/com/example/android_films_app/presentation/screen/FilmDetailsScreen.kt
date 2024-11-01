@@ -58,7 +58,8 @@ fun FilmDetailsScreen(
                         IconButton(onClick = { filmDetailScreenHandler.onToBack() }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "Back")
+                                contentDescription = "Back"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -109,11 +110,11 @@ private fun Country(country: String?) {
 }
 
 @Composable
-private fun Genres(genres: List<String>) {
+private fun Genres(genres: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Жанр: ${genres.joinToString(separator = ", ") { it }}",
+        text = "Жанр: $genres",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -121,11 +122,11 @@ private fun Genres(genres: List<String>) {
 }
 
 @Composable
-private fun Directors(directors: List<String>) {
+private fun Directors(directors: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Режисёры: ${directors.joinToString(separator = ", ") { it }}",
+        text = "Режисёры: $directors",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -133,11 +134,11 @@ private fun Directors(directors: List<String>) {
 }
 
 @Composable
-private fun Budget(budget: Long) {
+private fun Budget(budget: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Бюджет: \$${budget}",
+        text = "Бюджет: ${budget}",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -162,10 +163,13 @@ fun FilmDetailScreenPreview() {
             rememberNavController()
         ),
         film = FilmItem(
-            "Название",
-            genres = listOf(),
-            directors = listOf(),
-            imageUri = Uri.parse("")
+            name = "",
+            genres = "",
+            directors = "",
+            budget = "",
+            country = "",
+            imageUri = Uri.parse(""),
+            description = "",
         )
     )
 }

@@ -1,10 +1,10 @@
 package com.example.android_films_app.di
 
-import com.example.android_films_app.data.storage.repository.FilmsDataRepository
+import com.example.android_films_app.domain.repository.FilmsRepository
 import com.example.android_films_app.domain.usecase.SubscribeAllFilmsUseCase
 import com.example.android_films_app.domain.usecase.SubscribeAllFilmsUseCaseImpl
-import com.example.android_films_app.domain.usecase.SubscribeFilmUseCase
-import com.example.android_films_app.domain.usecase.SubscribeFilmUseCaseImpl
+import com.example.android_films_app.domain.usecase.SubscribeCheckInternetUseCase
+import com.example.android_films_app.domain.usecase.SubscribeCheckInternetUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,16 +22,23 @@ object UsecaseModule {
     @Singleton
     @Provides
     fun provideSubscribeAllFilmsUseCase(
-        repository: FilmsDataRepository
+        repository: FilmsRepository
     ) : SubscribeAllFilmsUseCase{
         return SubscribeAllFilmsUseCaseImpl(repository)
     }
 
     @Singleton
     @Provides
-    fun provideSubscribeFilmUseCase(
-        repository: FilmsDataRepository
-    ) : SubscribeFilmUseCase{
-        return SubscribeFilmUseCaseImpl(repository)
+    fun provideSubscribeCheckInternetUseCase(
+        repository: FilmsRepository
+    ) : SubscribeCheckInternetUseCase{
+        return SubscribeCheckInternetUseCaseImpl(repository)
     }
+//    @Singleton
+//    @Provides
+//    fun provideSubscribeFilmUseCase(
+//        repository: FilmsDataRepository
+//    ) : SubscribeFilmUseCase{
+//        return SubscribeFilmUseCaseImpl(repository)
+//    }
 }

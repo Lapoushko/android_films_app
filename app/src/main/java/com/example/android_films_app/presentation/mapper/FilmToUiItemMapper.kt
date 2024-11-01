@@ -24,12 +24,24 @@ interface FilmToUiItemMapper {
 class FilmToUiItemMapperImpl @Inject constructor() : FilmToUiItemMapper {
     override fun invoke(film: Film): FilmItem {
         return FilmItem(
-            name = film.name,
-            country = film.country,
-            directors = film.directors,
-            budget = film.budget,
-            genres = film.genres,
-            description = film.description,
+            name = film.name.ifEmpty { "Не указано" },
+            country = if (film.countries.isEmpty())
+                "Не указаны"
+            else film.countries.joinToString(
+                ", "
+            ) { it },
+            directors = if (film.directors.isEmpty())
+                "Не указаны"
+            else film.directors.joinToString(
+                ", "
+            ) { it },
+            budget = if (film.budget == 0L) "Не указан" else film.budget.toString(),
+            genres = if (film.genres.isEmpty())
+                "Не указаны"
+            else film.genres.joinToString(
+                ", "
+            ) { it },
+            description = film.description.ifEmpty { "Не указано" },
             imageUri = film.imageUri.toString()
                 .toFormattedUri() // костыль для того, чтобы не ломался маршрут к новому экрану /* TODO починить
         )
