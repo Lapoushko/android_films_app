@@ -26,7 +26,7 @@ class FilmResponseToDbMapperImpl @Inject constructor() : FilmResponseToDbMapper 
             id = filmResponse.id,
             name = filmResponse.name,
             description = filmResponse.description,
-            country = filmResponse.country,
+            countries = filmResponse.country,
             directors = filmResponse.directors,
             budget = filmResponse.budget,
             genres = filmResponse.genres,

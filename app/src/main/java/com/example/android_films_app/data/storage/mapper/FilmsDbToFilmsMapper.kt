@@ -30,13 +30,13 @@ class FilmsDbToFilmsMapperImpl @Inject constructor() : FilmsDbToFilmsMapper {
     override fun invoke(filmsDb: List<FilmDb>): List<Film> {
         return filmsDb.map { filmDb ->
             Film(
-                name = filmDb.name ?: "Название не указано",
-                country = filmDb.country ?: "Страна не указана",
+                name = filmDb.name ?: "",
+                countries = filmDb.countries ?: emptyList(),
                 directors = filmDb.directors ?: emptyList(),
                 budget = filmDb.budget ?: 0L,
                 genres = filmDb.genres ?: emptyList(),
-                description = filmDb.description ?: "Описание не указано",
-                imageUri = filmDb.imageUri ?: Uri.parse("")
+                description = filmDb.description ?: "",
+                imageUri = filmDb.imageUri ?: Uri.EMPTY
             )
         }
     }

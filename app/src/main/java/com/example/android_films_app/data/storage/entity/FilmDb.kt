@@ -7,7 +7,7 @@ import android.net.Uri
  *
  * Фильм
  * @param id айди фильма
- * @param country страна создания
+ * @param countries страна создания
  * @param directors режисёры
  * @param budget бюджет фильма
  * @param name имя фильма
@@ -18,7 +18,7 @@ import android.net.Uri
 class FilmDb(
     val id: Long?,
     val name: String?,
-    val country: String?,
+    val countries: List<String>?,
     val directors: List<String>?,
     val budget: Long?,
     val genres: List<String>?,

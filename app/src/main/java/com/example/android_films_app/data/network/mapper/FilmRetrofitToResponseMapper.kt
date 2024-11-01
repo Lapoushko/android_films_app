@@ -17,7 +17,7 @@ class FilmRetrofitToResponseMapperImpl @Inject constructor() : FilmRetrofitToRes
         return FilmResponse(
             id = filmRetrofit.id,
             name = filmRetrofit.name,
-            country = filmRetrofit.countries?.joinToString { it.name.toString() },
+            country = filmRetrofit.countries?.map { it.name ?: "" },
             directors = filmRetrofit.persons?.filter { it.profession == "режиссеры" }
                 ?.map { it.name.toString() },
             budget = filmRetrofit.budget?.value,

@@ -110,11 +110,11 @@ private fun Country(country: String?) {
 }
 
 @Composable
-private fun Genres(genres: List<String>) {
+private fun Genres(genres: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Жанр: ${genres.joinToString(separator = ", ") { it }}",
+        text = "Жанр: $genres",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -122,11 +122,11 @@ private fun Genres(genres: List<String>) {
 }
 
 @Composable
-private fun Directors(directors: List<String>) {
+private fun Directors(directors: String) {
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Режисёры: ${directors.joinToString(separator = ", ") { it }}",
+        text = "Режисёры: $directors",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -164,8 +164,8 @@ fun FilmDetailScreenPreview() {
         ),
         film = FilmItem(
             name = "",
-            genres = emptyList(),
-            directors = emptyList(),
+            genres = "",
+            directors = "",
             budget = "",
             country = "",
             imageUri = Uri.parse(""),

@@ -23,9 +23,9 @@ import kotlinx.serialization.Serializable
 data class FilmItem(
     val name: String,
     val country: String,
-    val directors: List<String>,
+    val directors: String,
     val budget: String,
-    val genres: List<String>,
+    val genres: String,
     val description: String,
     @Serializable(with = URISerializer::class)
     val imageUri: Uri

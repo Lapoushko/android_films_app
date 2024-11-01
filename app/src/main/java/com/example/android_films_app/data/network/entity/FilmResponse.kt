@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
 class FilmResponse(
     val id: Long?,
     val name: String?,
-    val country: String? ,
+    val country: List<String>? ,
     val directors: List<String>?,
     val budget: Long?,
     val genres: List<String>?,
