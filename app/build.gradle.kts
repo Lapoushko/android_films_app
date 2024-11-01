@@ -65,13 +65,18 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
+    implementation(libs.androidx.material.icons.extended)
 
+    //Navigation
     implementation(libs.androidx.navigation.compose)
 
+    //Serialization
     implementation(libs.kotlinx.serialization.json.jvm)
 
+    //Coil
     implementation(libs.coil.compose)
 
+    //DI
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -81,6 +86,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
