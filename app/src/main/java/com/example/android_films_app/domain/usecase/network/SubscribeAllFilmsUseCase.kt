@@ -1,4 +1,4 @@
-package com.example.android_films_app.domain.usecase
+package com.example.android_films_app.domain.usecase.network
 
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.domain.repository.FilmsRepository

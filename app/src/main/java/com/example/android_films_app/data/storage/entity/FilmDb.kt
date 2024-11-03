@@ -13,7 +13,7 @@ package com.example.android_films_app.data.storage.entity
  * @param description описание фильма
  * @param imageUri путь до изображения фильма
  */
-class FilmDb(
+data class FilmDb(
     val id: Long?,
     val name: String?,
     val countries: List<String>?,
@@ -22,5 +22,6 @@ class FilmDb(
     val genres: List<String>?,
     val description: String?,
     val year: Int?,
-    val imageUri: String?
+    val imageUri: String?,
+    val isFavourite: Boolean? = false
 )

@@ -20,5 +20,6 @@ class Film(
     val genres: List<String>,
     val description: String,
     val year: Int,
-    val imageUri: String
+    val imageUri: String,
+    val isFavourite: Boolean
 )

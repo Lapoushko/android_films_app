@@ -1,9 +1,9 @@
 package com.example.android_films_app.data.storage.dao
 
+import android.util.Log
 import com.example.android_films_app.data.storage.data.ExampleLocalData
 import com.example.android_films_app.data.storage.entity.FilmDb
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.example.android_films_app.util.Constants
 import javax.inject.Inject
 
 /**
@@ -16,12 +16,17 @@ interface FilmsDao {
      * Получить все фильмы
      * @return все фильмы
      */
-    suspend fun getFilms(): Flow<List<FilmDb>>
+    suspend fun getFilms(query: String): List<FilmDb>
 
     /**
      * Вставка нового фильма
      */
     suspend fun insertFilm(filmDb: FilmDb)
+
+    /**
+     * Удалить фильм
+     */
+    suspend fun deleteFilm(filmDb: FilmDb)
 
 //    /**
 //     * Фильмы по айди
@@ -37,24 +42,19 @@ interface FilmsDao {
 class FilmsDaoImpl @Inject constructor() : FilmsDao {
     private val films = ExampleLocalData().films
 
-    override suspend fun getFilms(): Flow<List<FilmDb>> {
-        return flow {
-            films
-            emit(films)
-        }
+    override suspend fun getFilms(query: String): List<FilmDb> {
+        return films
     }
 
     override suspend fun insertFilm(filmDb: FilmDb) {
         films.add(filmDb)
     }
 
-//    override suspend fun getFilm(id: Long): Flow<FilmDb> {
-//        return flow {
-//            val films = exampleLocalData.films
-//            val foundFilm = films.find { it.id == id }
-//            if (foundFilm != null) {
-//                emit(foundFilm)
-//            }
-//        }
-//    }
+    /**
+     * Удалить фильм
+     */
+    override suspend fun deleteFilm(filmDb: FilmDb) {
+        Log.d(Constants.LOG_KEY, (films[0] == filmDb).toString())
+        films.remove(filmDb)
+    }
 }

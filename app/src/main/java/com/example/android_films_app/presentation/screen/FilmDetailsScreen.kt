@@ -83,10 +83,10 @@ fun FilmDetailsScreen(
                     .padding(innerPadding)
             ) {
                 FilmHeader(film = film)
-                Country(country = film.country)
-                Genres(genres = film.genres)
-                Directors(directors = film.directors)
-                Budget(budget = film.budget)
+                TextOption(title = "Страна: ", text = film.country)
+                TextOption(title = "Жанр: ", text = film.genres)
+                TextOption(title = "Режиссёры: ", text = film.directors)
+                TextOption(title = "Бюджет: ", text = film.budget)
                 Description(description = film.description)
             }
         }
@@ -149,47 +149,11 @@ private fun FilmHeader(film: FilmItem) {
 }
 
 @Composable
-private fun Country(country: String?) {
+private fun TextOption(title: String, text: String?){
     Text(
         modifier = Modifier
             .padding(20.dp),
-        text = "Страна: ${country ?: "не указана"}",
-        fontSize = 20.sp,
-        style = Typography.titleLarge,
-        fontStyle = FontStyle.Italic
-    )
-}
-
-@Composable
-private fun Genres(genres: String) {
-    Text(
-        modifier = Modifier
-            .padding(20.dp),
-        text = "Жанр: $genres",
-        fontSize = 20.sp,
-        style = Typography.titleLarge,
-        fontStyle = FontStyle.Italic
-    )
-}
-
-@Composable
-private fun Directors(directors: String) {
-    Text(
-        modifier = Modifier
-            .padding(20.dp),
-        text = "Режисёры: $directors",
-        fontSize = 20.sp,
-        style = Typography.titleLarge,
-        fontStyle = FontStyle.Italic
-    )
-}
-
-@Composable
-private fun Budget(budget: String) {
-    Text(
-        modifier = Modifier
-            .padding(20.dp),
-        text = "Бюджет: ${budget}",
+        text = "$title ${text ?: "не указано"}",
         fontSize = 20.sp,
         style = Typography.titleLarge,
         fontStyle = FontStyle.Italic
@@ -222,6 +186,7 @@ fun FilmDetailScreenPreview() {
             imageUri = Uri.parse(""),
             year = "",
             description = "",
+            isFavourite = false
         )
     )
 }

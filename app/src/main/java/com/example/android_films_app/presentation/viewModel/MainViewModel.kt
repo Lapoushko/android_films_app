@@ -1,10 +1,12 @@
-package com.example.android_films_app.presentation.main
+package com.example.android_films_app.presentation.viewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_films_app.domain.usecase.SubscribeAllFilmsUseCase
-import com.example.android_films_app.domain.usecase.SubscribeCheckInternetUseCase
+import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUseCase
+import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCase
+import com.example.android_films_app.domain.usecase.storage.SubscribeFavouriteFilm
+import com.example.android_films_app.presentation.mapper.FilmItemToFilmMapper
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.util.Constants
@@ -24,8 +26,10 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val subscribeAllFilmsUseCase: SubscribeAllFilmsUseCase,
+    private val subscribeFavouriteFilm: SubscribeFavouriteFilm,
     private val subscribeCheckInternetUseCase: SubscribeCheckInternetUseCase,
-    val uiMapper: FilmToUiItemMapper
+    private val domainMapper: FilmItemToFilmMapper,
+    private val uiMapper: FilmToUiItemMapper
 ) : ViewModel() {
     private val _films: MutableStateFlow<List<FilmItem>> = MutableStateFlow(emptyList())
     val films: StateFlow<List<FilmItem>> = _films.asStateFlow()
@@ -65,5 +69,18 @@ class MainViewModel @Inject constructor(
 
     override fun onCleared() {
         Log.d(Constants.LOG_KEY, "MainViewModel cleared")
+    }
+
+    /**
+     * подписка или отписка от избранного фильма
+     */
+    fun clickFavourite(filmItem: FilmItem, isFavourite: Boolean){
+        viewModelScope.launch {
+            if (isFavourite) {
+                subscribeFavouriteFilm.insert(domainMapper(filmItem = filmItem))
+            } else{
+                subscribeFavouriteFilm.delete(domainMapper(filmItem = filmItem))
+            }
+        }
     }
 }

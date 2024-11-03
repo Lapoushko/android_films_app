@@ -21,9 +21,18 @@ interface FilmsRepository{
      */
     suspend fun getStatusInternet(): Boolean
 
-//    /**
-//     * Получить фильм domain
-//     * @return Flow фильма domain
-//     */
-//    suspend fun getFilm(id: Long): Flow<Film>
+    /**
+     * Вставить фильм в базу данных
+     */
+    suspend fun insertFilm(film: Film)
+
+    /**
+     * Удалить фильм
+     */
+    suspend fun deleteFilm(film: Film)
+
+    /**
+     * Фильмы из дао
+     */
+    suspend fun getFilmsFromDao(query: String) : List<Film>
 }

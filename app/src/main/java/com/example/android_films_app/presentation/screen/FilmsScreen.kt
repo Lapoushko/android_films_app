@@ -17,6 +17,8 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -44,13 +46,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.android_films_app.presentation.handler.FilmScreenHandler
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
-import com.example.android_films_app.presentation.main.MainViewModel
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.theme.Typography
+import com.example.android_films_app.presentation.viewModel.MainViewModel
 
 /**
  * @author Lapoushko
@@ -60,7 +64,7 @@ import com.example.android_films_app.presentation.theme.Typography
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilmsScreen(
-    filmsScreenHandler: FilmsScreenHandlerImpl,
+    filmsScreenHandler: FilmScreenHandler,
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val isNetworkAvailable by viewModel.isNetworkAvailable.collectAsState()
@@ -92,6 +96,7 @@ fun FilmsScreen(
                 if (isNetworkAvailable) {
                     ContentWithInternet(
                         films = films,
+                        viewModel = viewModel,
                         filmsScreenHandler = filmsScreenHandler
                     )
                 } else {
@@ -109,14 +114,16 @@ fun FilmsScreen(
 @Composable
 private fun ContentWithInternet(
     films: List<FilmItem>,
-    filmsScreenHandler: FilmsScreenHandlerImpl,
+    viewModel: MainViewModel,
+    filmsScreenHandler: FilmScreenHandler,
 ) {
     Column(
         modifier = Modifier
     ) {
         ItemsLoad(
             films = films,
-            filmsScreenHandler = filmsScreenHandler
+            viewModel = viewModel,
+            filmsScreenHandler = filmsScreenHandler,
         )
     }
 }
@@ -134,80 +141,90 @@ fun SearchViewer(
         modifier = Modifier
             .padding(horizontal = 10.dp)
     ) {
-        SearchBar(modifier = Modifier.fillMaxWidth(),
-            query = text,
-            onQueryChange = {
-                text = it
-            },
-            onSearch = {
-                searchHistory.add(text)
-                active = false
-                onStringChanged(text)
-            },
-            active = active,
-            onActiveChange = {
-                active = it
-            },
-            placeholder = {
-                Text(text = "Название фильма")
-            },
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "")
-            },
-            trailingIcon = {
-                if (active) {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            if (text.isNotEmpty()) {
-                                text = ""
-                            } else {
-                                active = false
-                            }
-                        },
-                        imageVector = Icons.Default.Close,
-                        contentDescription = ""
-                    )
-                }
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            searchHistory.forEach {
-                if (it.isNotEmpty()) {
-                    Row(
-                        modifier = Modifier.padding(all = 14.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = { text = it }) {
-                            Icon(imageVector = Icons.Default.History, contentDescription = null)
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(text = it)
+            SearchBar(modifier = Modifier.fillMaxWidth(),
+                query = text,
+                onQueryChange = {
+                    text = it
+                },
+                onSearch = {
+                    searchHistory.add(text)
+                    active = false
+                    onStringChanged(text)
+                },
+                active = active,
+                onActiveChange = {
+                    active = it
+                },
+                placeholder = {
+                    Text(text = "Название фильма")
+                },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Search, contentDescription = "")
+                },
+                trailingIcon = {
+                    if (active) {
+                        Icon(
+                            modifier = Modifier.clickable {
+                                if (text.isNotEmpty()) {
+                                    text = ""
+                                } else {
+                                    active = false
+                                }
+                            },
+                            imageVector = Icons.Default.Close,
+                            contentDescription = ""
+                        )
                     }
                 }
-            }
+            ) {
+                searchHistory.forEach {
+                    if (it.isNotEmpty()) {
+                        Row(
+                            modifier = Modifier.padding(all = 14.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(onClick = { text = it }) {
+                                Icon(imageVector = Icons.Default.History, contentDescription = null)
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(text = it)
+                        }
+                    }
+                }
 
-            HorizontalDivider()
-            Text(
-                modifier = Modifier
-                    .padding(all = 14.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        searchHistory.clear()
-                    },
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                text = "Очистить историю поиска"
-            )
+                HorizontalDivider()
+                Text(
+                    modifier = Modifier
+                        .padding(all = 14.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            searchHistory.clear()
+                        },
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    text = "Очистить историю поиска"
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun ItemsLoad(
+fun ItemsLoad(
     films: List<FilmItem>,
-    filmsScreenHandler: FilmsScreenHandlerImpl
+    viewModel: ViewModel,
+    filmsScreenHandler: FilmScreenHandler
 ) {
     LazyColumn {
         items(films) { film ->
+
+            val isFavourite = remember {
+                mutableStateOf(film.isFavourite)
+            }
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -232,6 +249,20 @@ private fun ItemsLoad(
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
+                    IconButton(onClick = {
+                        isFavourite.value = !isFavourite.value
+                        (viewModel as MainViewModel).clickFavourite(filmItem = film, isFavourite = isFavourite.value)
+                    }) {
+                        val imageVector = if (isFavourite.value) {
+                            Icons.Outlined.Favorite
+                        } else {
+                            Icons.Outlined.FavoriteBorder
+                        }
+                        Icon(
+                            imageVector = imageVector,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         }
@@ -265,6 +296,7 @@ private fun ContentWithInternetPreview() {
     ContentWithInternet(
 //        paddingValues = PaddingValues(0.dp),
         films = listOf(),
+        hiltViewModel(),
         filmsScreenHandler = FilmsScreenHandlerImpl(
             rememberNavController()
         )
@@ -277,7 +309,8 @@ private fun ContentWithoutInternetPreview() {
     ContentWithoutInternet(
 //        PaddingValues(0.dp),
         viewModel = hiltViewModel(),
-        "")
+        ""
+    )
 }
 
 @Preview(showBackground = true)

@@ -5,6 +5,7 @@ import com.example.android_films_app.data.network.mapper.FilmRetrofitToResponseM
 import com.example.android_films_app.data.network.service.FilmService
 import com.example.android_films_app.data.network.util.InternetChecker
 import com.example.android_films_app.data.storage.dao.FilmsDao
+import com.example.android_films_app.data.storage.mapper.FilmToFilmDbMapper
 import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.domain.repository.FilmsRepository
@@ -26,6 +27,7 @@ class FilmsRepositoryImpl @Inject constructor(
     private val filmRetrofitMapper: FilmRetrofitToResponseMapper,
     private val filmResponseToDbMapper: FilmResponseToDbMapper,
     private val filmDbToFilmMapper: FilmsDbToFilmsMapper,
+    private val filmToFilmDbMapper: FilmToFilmDbMapper,
     private val internetChecker: InternetChecker
 ) : FilmsRepository {
     private var isNetworkAvailable = false
@@ -36,6 +38,9 @@ class FilmsRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+     * Получить фильмы по их названию
+     */
     private suspend fun getFilmsByName(
         page: Int = 1,
         limit: Int = 5,
@@ -67,9 +72,27 @@ class FilmsRepositoryImpl @Inject constructor(
         }
     }
 
-//    override suspend fun getFilm(id: Long): Flow<Film> {
-//        return flow {
-//            emit(filmDbToFilmMapper.invoke(film = filmsDao.getFilm(id).first()))
-//        }
-//    }
+    /**
+     * Вставить фильм в базу данных
+     */
+    override suspend fun insertFilm(film: Film) {
+        return withContext(Dispatchers.IO) {
+            filmsDao.insertFilm(filmToFilmDbMapper(film))
+        }
+    }
+
+    /**
+     * Удалить фильм
+     */
+    override suspend fun deleteFilm(film: Film) {
+        filmsDao.deleteFilm(filmToFilmDbMapper(film = film))
+    }
+
+    /**
+     * Фильмы из дао
+     */
+    override suspend fun getFilmsFromDao(query: String): List<Film> {
+        return filmsDao.getFilms(query = query)
+            .map { filmDb -> filmDbToFilmMapper.invoke(filmsDb = filmDb) }
+    }
 }

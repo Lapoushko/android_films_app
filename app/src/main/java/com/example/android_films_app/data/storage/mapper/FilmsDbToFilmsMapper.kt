@@ -49,7 +49,8 @@ class FilmsDbToFilmsMapperImpl @Inject constructor() : FilmsDbToFilmsMapper {
             genres = filmsDb.genres ?: emptyList(),
             description = filmsDb.description ?: "",
             year = filmsDb.year ?: 0,
-            imageUri = filmsDb.imageUri ?: ""
+            imageUri = filmsDb.imageUri ?: "",
+            isFavourite = filmsDb.isFavourite ?: false
         )
     }
 }

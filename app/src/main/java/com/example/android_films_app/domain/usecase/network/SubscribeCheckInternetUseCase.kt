@@ -1,4 +1,4 @@
-package com.example.android_films_app.domain.usecase
+package com.example.android_films_app.domain.usecase.network
 
 import com.example.android_films_app.domain.repository.FilmsRepository
 import javax.inject.Inject
@@ -16,8 +16,8 @@ interface SubscribeCheckInternetUseCase {
 }
 
 class SubscribeCheckInternetUseCaseImpl @Inject constructor(
-    val repositoryImpl: FilmsRepository
-): SubscribeCheckInternetUseCase{
+    private val repositoryImpl: FilmsRepository
+): SubscribeCheckInternetUseCase {
     /**
      * получить статус подключения к интернету
      * @return статус
