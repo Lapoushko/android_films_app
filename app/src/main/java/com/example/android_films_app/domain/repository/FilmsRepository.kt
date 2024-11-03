@@ -13,13 +13,13 @@ interface FilmsRepository{
      * Получить все фильмы
      * @return Flow всех фильмов domain
      */
-    suspend fun getFilms(): Flow<List<Film>>
+    suspend fun getFilms(query: String): Flow<List<Film>>
 
     /**
      * получить статут интернета
      * @return текущий статус
      */
-    suspend fun getStatusInternet(): Flow<Boolean>
+    suspend fun getStatusInternet(): Boolean
 
 //    /**
 //     * Получить фильм domain

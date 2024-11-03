@@ -1,7 +1,5 @@
 package com.example.android_films_app.data.network.entity
 
-import android.net.Uri
-import com.example.android_films_app.util.URISerializer
 import kotlinx.serialization.Serializable
 
 /**
@@ -25,6 +23,6 @@ class FilmResponse(
     val budget: Long?,
     val genres: List<String>?,
     val description: String?,
-    @Serializable(with = URISerializer::class)
-    val imageUri: Uri?
+    val year: Int?,
+    val imageUri: String?
 )

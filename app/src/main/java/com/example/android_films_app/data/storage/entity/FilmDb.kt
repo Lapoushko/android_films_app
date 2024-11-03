@@ -1,7 +1,5 @@
 package com.example.android_films_app.data.storage.entity
 
-import android.net.Uri
-
 /**
  * @author Lapoushko
  *
@@ -23,5 +21,6 @@ class FilmDb(
     val budget: Long?,
     val genres: List<String>?,
     val description: String?,
-    val imageUri: Uri?
+    val year: Int?,
+    val imageUri: String?
 )

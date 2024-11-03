@@ -42,7 +42,8 @@ class FilmToUiItemMapperImpl @Inject constructor() : FilmToUiItemMapper {
                 ", "
             ) { it },
             description = film.description.ifEmpty { "Не указано" },
-            imageUri = film.imageUri.toString()
+            year = film.year.toString().ifEmpty { "Не указан" },
+            imageUri = film.imageUri
                 .toFormattedUri() // костыль для того, чтобы не ломался маршрут к новому экрану /* TODO починить
         )
     }

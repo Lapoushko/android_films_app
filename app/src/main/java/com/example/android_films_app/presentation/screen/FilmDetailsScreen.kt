@@ -1,15 +1,19 @@
 package com.example.android_films_app.presentation.screen
 
 import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,12 +21,19 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,14 +68,11 @@ fun FilmDetailsScreen(
                     navigationIcon = {
                         IconButton(onClick = { filmDetailScreenHandler.onToBack() }) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.Filled.ArrowBackIosNew,
                                 contentDescription = "Back"
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.mediumTopAppBarColors(
-                        containerColor = Color.Yellow,
-                    )
                 )
             }
         ) { innerPadding ->
@@ -74,7 +82,7 @@ fun FilmDetailsScreen(
                     .verticalScroll(rememberScrollState())
                     .padding(innerPadding)
             ) {
-                FilmPreviewImage(imageUri = film.imageUri)
+                FilmHeader(film = film)
                 Country(country = film.country)
                 Genres(genres = film.genres)
                 Directors(directors = film.directors)
@@ -87,14 +95,57 @@ fun FilmDetailsScreen(
 }
 
 @Composable
-private fun FilmPreviewImage(imageUri: Uri) {
-    AsyncImage(
+private fun FilmHeader(film: FilmItem) {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(15.dp)),
-        model = imageUri,
-        contentDescription = null
-    )
+            .height(500.dp)
+    ) {
+        AsyncImage(
+            model = film.imageUri,
+            contentDescription = "Film Poster",
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(12.dp)),
+            contentScale = ContentScale.Crop
+        )
+
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(Color.Black.copy(alpha = 0f), Color.Black.copy(alpha = 0.6f)),
+                        start = Offset(0f, 0f),
+                        end = Offset(0f, Float.POSITIVE_INFINITY)
+                    )
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 16.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = film.name,
+                color = Color.White,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                style = TextStyle(shadow = Shadow(color = Color.Black, blurRadius = 5f))
+            )
+
+            Text(
+                text = buildAnnotatedString {
+                    append("Год выпуска: ${film.year}")
+                },
+                color = Color.White,
+                fontSize = 18.sp
+            )
+        }
+    }
 }
 
 @Composable
@@ -169,6 +220,7 @@ fun FilmDetailScreenPreview() {
             budget = "",
             country = "",
             imageUri = Uri.parse(""),
+            year = "",
             description = "",
         )
     )

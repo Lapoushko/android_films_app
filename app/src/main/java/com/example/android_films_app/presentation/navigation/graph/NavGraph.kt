@@ -57,6 +57,7 @@ fun NavGraph(
                     genres = film.film.genres,
                     description = film.film.description,
                     budget = film.film.budget,
+                    year = film.film.year,
                     imageUri = film.film.imageUri.toString()
                         .toFormattedUri(oldChar = '\\', newChar = '/')
                 )
