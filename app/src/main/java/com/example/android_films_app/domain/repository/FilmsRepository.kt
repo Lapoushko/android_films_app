@@ -1,7 +1,6 @@
 package com.example.android_films_app.domain.repository
 
 import com.example.android_films_app.domain.entity.Film
-import kotlinx.coroutines.flow.Flow
 
 /**
  * @author Lapoushko
@@ -13,7 +12,7 @@ interface FilmsRepository{
      * Получить все фильмы
      * @return Flow всех фильмов domain
      */
-    suspend fun getFilms(query: String): Flow<List<Film>>
+    suspend fun getFilms(query: String): List<Film>
 
     /**
      * получить статут интернета

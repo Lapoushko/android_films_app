@@ -55,10 +55,7 @@ class MainViewModel @Inject constructor(
         loadJob = viewModelScope.launch {
             _isNetworkAvailable.value = subscribeCheckInternetUseCase.getStatusInternet()
             if (isNetworkAvailable.value) {
-                subscribeAllFilmsUseCase.getFilms(query)
-                    .collect { filmList ->
-                        _films.value = filmList.map { uiMapper(it) }
-                    }
+                _films.value = subscribeAllFilmsUseCase.getFilms(query).map { uiMapper(it) }
             }
         }
     }
@@ -74,11 +71,11 @@ class MainViewModel @Inject constructor(
     /**
      * подписка или отписка от избранного фильма
      */
-    fun clickFavourite(filmItem: FilmItem, isFavourite: Boolean){
+    fun clickFavourite(filmItem: FilmItem, isFavourite: Boolean) {
         viewModelScope.launch {
             if (isFavourite) {
                 subscribeFavouriteFilm.insert(domainMapper(filmItem = filmItem))
-            } else{
+            } else {
                 subscribeFavouriteFilm.delete(domainMapper(filmItem = filmItem))
             }
         }
