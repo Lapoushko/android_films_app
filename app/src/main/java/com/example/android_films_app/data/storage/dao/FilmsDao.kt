@@ -17,8 +17,8 @@ interface FilmsDao {
      * Получить все фильмы
      * @return все фильмы
      */
-    @Query("SELECT * FROM films")
-    suspend fun getFilms( ): List<FilmDb>
+    @Query("SELECT * FROM films WHERE :query = '' OR name LIKE '%' || :query || '%'")
+    suspend fun getFilms(query: String): List<FilmDb>
 
     /**
      * Вставка нового фильма

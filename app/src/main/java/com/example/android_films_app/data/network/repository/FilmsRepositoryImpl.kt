@@ -96,7 +96,7 @@ class FilmsRepositoryImpl @Inject constructor(
     override suspend fun getFilmsFromDao(query: String): List<Film> {
         var films = emptyList<Film>()
         withContext(Dispatchers.IO) {
-            val filmsDb = filmsDao.getFilms()
+            val filmsDb = filmsDao.getFilms(query)
             films = filmsDb.map { filmDb -> filmDbToFilmMapper.invoke(filmsDb = filmDb) }
         }
         return films
