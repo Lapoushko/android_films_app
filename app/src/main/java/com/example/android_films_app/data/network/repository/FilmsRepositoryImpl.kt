@@ -76,7 +76,7 @@ class FilmsRepositoryImpl @Inject constructor(
      * Вставить фильм в базу данных
      */
     override suspend fun insertFilm(film: Film) {
-        return withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             filmsDao.insertFilm(filmToFilmDbMapper(film))
         }
     }
@@ -85,14 +85,24 @@ class FilmsRepositoryImpl @Inject constructor(
      * Удалить фильм
      */
     override suspend fun deleteFilm(film: Film) {
-        filmsDao.deleteFilm(filmToFilmDbMapper(film = film))
+        withContext(Dispatchers.IO) {
+            val filmDb = filmToFilmDbMapper(film = film)
+            filmsDao.deleteFilm(
+                name = filmDb.name ?: "",
+                description = filmDb.description ?: ""
+            )
+        }
     }
 
     /**
      * Фильмы из дао
      */
     override suspend fun getFilmsFromDao(query: String): List<Film> {
-        return filmsDao.getFilms(query = query)
-            .map { filmDb -> filmDbToFilmMapper.invoke(filmsDb = filmDb) }
+        var films = emptyList<Film>()
+        withContext(Dispatchers.IO) {
+            val filmsDb = filmsDao.getFilms()
+            films = filmsDb.map { filmDb -> filmDbToFilmMapper.invoke(filmsDb = filmDb) }
+        }
+        return films
     }
 }

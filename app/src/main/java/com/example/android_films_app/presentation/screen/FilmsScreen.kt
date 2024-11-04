@@ -46,7 +46,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.android_films_app.presentation.handler.FilmScreenHandler
@@ -213,14 +212,13 @@ fun SearchViewer(
 }
 
 @Composable
-fun ItemsLoad(
+private fun ItemsLoad(
     films: List<FilmItem>,
-    viewModel: ViewModel,
+    viewModel: MainViewModel,
     filmsScreenHandler: FilmScreenHandler
 ) {
     LazyColumn {
         items(films) { film ->
-
             val isFavourite = remember {
                 mutableStateOf(film.isFavourite)
             }
@@ -251,7 +249,7 @@ fun ItemsLoad(
                     )
                     IconButton(onClick = {
                         isFavourite.value = !isFavourite.value
-                        (viewModel as MainViewModel).clickFavourite(filmItem = film, isFavourite = isFavourite.value)
+                        viewModel.clickFavourite(filmItem = film, isFavourite = isFavourite.value)
                     }) {
                         val imageVector = if (isFavourite.value) {
                             Icons.Outlined.Favorite
@@ -271,13 +269,11 @@ fun ItemsLoad(
 
 @Composable
 private fun ContentWithoutInternet(
-//    paddingValues: PaddingValues,
     viewModel: MainViewModel,
     query: String
 ) {
     Column(
         modifier = Modifier
-//            .padding(paddingValues)
     ) {
         Text(
             text = "Нет интернета"
@@ -294,7 +290,6 @@ private fun ContentWithoutInternet(
 @Composable
 private fun ContentWithInternetPreview() {
     ContentWithInternet(
-//        paddingValues = PaddingValues(0.dp),
         films = listOf(),
         hiltViewModel(),
         filmsScreenHandler = FilmsScreenHandlerImpl(

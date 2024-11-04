@@ -1,60 +1,57 @@
 package com.example.android_films_app.data.storage.dao
 
-import android.util.Log
-import com.example.android_films_app.data.storage.data.ExampleLocalData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.android_films_app.data.storage.entity.FilmDb
-import com.example.android_films_app.util.Constants
-import javax.inject.Inject
 
 /**
  * @author Lapoushko
  *
  * интерфейс для работы с бд(пример)
  */
+@Dao
 interface FilmsDao {
     /**
      * Получить все фильмы
      * @return все фильмы
      */
-    suspend fun getFilms(query: String): List<FilmDb>
+    @Query("SELECT * FROM films")
+    suspend fun getFilms( ): List<FilmDb>
 
     /**
      * Вставка нового фильма
      */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFilm(filmDb: FilmDb)
 
     /**
      * Удалить фильм
      */
-    suspend fun deleteFilm(filmDb: FilmDb)
+    @Query("DELETE FROM films WHERE name = :name AND description = :description")
+    suspend fun deleteFilm(name: String, description: String)
+}
 
+///**
+// * Пример реализации
+// */
+//class FilmsDaoImpl @Inject constructor() : FilmsDao {
+//    private val films = ExampleLocalData().films
+//
+//    override suspend fun getFilms(query: String): List<FilmDb> {
+//        return films
+//    }
+//
+//    override suspend fun insertFilm(filmDb: FilmDb) {
+//        films.add(filmDb)
+//    }
+//
 //    /**
-//     * Фильмы по айди
-//     * @param id айди фильма
-//     * @return фильм
+//     * Удалить фильм
 //     */
-//    suspend fun getFilm(id: Long): Flow<FilmDb>
-}
-
-/**
- * Пример реализации
- */
-class FilmsDaoImpl @Inject constructor() : FilmsDao {
-    private val films = ExampleLocalData().films
-
-    override suspend fun getFilms(query: String): List<FilmDb> {
-        return films
-    }
-
-    override suspend fun insertFilm(filmDb: FilmDb) {
-        films.add(filmDb)
-    }
-
-    /**
-     * Удалить фильм
-     */
-    override suspend fun deleteFilm(filmDb: FilmDb) {
-        Log.d(Constants.LOG_KEY, (films[0] == filmDb).toString())
-        films.remove(filmDb)
-    }
-}
+//    override suspend fun deleteFilm(filmDb: FilmDb) {
+//        Log.d(Constants.LOG_KEY, (films[0] == filmDb).toString())
+//        films.remove(filmDb)
+//    }
+//}

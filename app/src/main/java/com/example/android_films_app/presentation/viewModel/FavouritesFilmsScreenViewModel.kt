@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.android_films_app.domain.usecase.storage.SubscribeFavouriteFilm
 import com.example.android_films_app.domain.usecase.storage.SubscribeGetFavouriteFilmUseCase
 import com.example.android_films_app.presentation.mapper.FilmItemToFilmMapper
+import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,12 +25,10 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
     private val subscribeGetFavouriteFilm: SubscribeGetFavouriteFilmUseCase,
     private val subscribeFavouriteFilm: SubscribeFavouriteFilm,
     private val domainMapper: FilmItemToFilmMapper,
+    private val uiMapper: FilmToUiItemMapper
 ) : ViewModel() {
     private val _films: MutableStateFlow<List<FilmItem>> = MutableStateFlow(emptyList())
     val films: StateFlow<List<FilmItem>> = _films.asStateFlow()
-
-    private val _film: MutableStateFlow<FilmItem?> = MutableStateFlow(null)
-    val film: StateFlow<FilmItem?> = _film.asStateFlow()
 
     /**
      * Получить все фильмы
@@ -41,7 +40,8 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
 
     private fun load(query: String) {
         viewModelScope.launch {
-            subscribeGetFavouriteFilm.getFilms(query = query)
+            _films.value = subscribeGetFavouriteFilm.getFilms(query = query)
+                .map { film -> uiMapper.invoke(film) }
         }
     }
 
@@ -63,6 +63,7 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
             } else {
                 subscribeFavouriteFilm.delete(domainMapper(filmItem = filmItem))
             }
+            load("")
         }
     }
 }

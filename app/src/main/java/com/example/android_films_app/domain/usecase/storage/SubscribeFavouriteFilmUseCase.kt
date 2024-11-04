@@ -28,7 +28,17 @@ class SubscribeFavouriteFilmImpl @Inject constructor(
      */
     override suspend fun insert(film: Film) {
         repository.insertFilm(
-            film = film
+            Film(
+                name = film.name,
+                countries = film.countries,
+                directors = film.directors,
+                budget = film.budget,
+                genres = film.genres,
+                description = film.description,
+                year = film.year,
+                imageUri = film.imageUri,
+                isFavourite = true
+            )
         )
     }
 
@@ -36,7 +46,17 @@ class SubscribeFavouriteFilmImpl @Inject constructor(
      * удаление фильма
      */
     override suspend fun delete(film: Film) {
-        repository.deleteFilm(film = film)
+        repository.deleteFilm(film = Film(
+            name = film.name,
+            countries = film.countries,
+            directors = film.directors,
+            budget = film.budget,
+            genres = film.genres,
+            description = film.description,
+            year = film.year,
+            imageUri = film.imageUri,
+            isFavourite = true
+        ))
     }
 
 }

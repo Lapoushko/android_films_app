@@ -3,9 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("plugin.serialization") version "1.9.21"
     id("kotlin-parcelize")
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -78,7 +77,7 @@ dependencies {
 
     //DI
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     //Retrofit
@@ -89,6 +88,11 @@ dependencies {
     //DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -96,6 +100,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
-kapt {
-    correctErrorTypes = true
-}
+
+
