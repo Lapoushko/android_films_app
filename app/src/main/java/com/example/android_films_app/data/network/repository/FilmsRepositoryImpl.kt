@@ -55,8 +55,13 @@ class FilmsRepositoryImpl @Inject constructor(
                     filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
                 }?.filter { it.name?.isNotEmpty()!! && it.imageUri?.isNotEmpty()!! }
 
+            //если в бд уже есть этот фильм, то заменять его копией с бд
+            val listFromDao = getFilmsFromDao(query = nameSearch)
             filmsResponse?.map { filmResponse ->
-                filmDbToFilmMapper.invoke(filmResponseToDbMapper.invoke(filmResponse = filmResponse))
+                val filmDb = filmResponseToDbMapper.invoke(filmResponse = filmResponse)
+                listFromDao.find {
+                    it.description == filmDb.description && it.name == filmDb.name
+                } ?: filmDbToFilmMapper.invoke(filmDb)
             } ?: emptyList()
         }
     }
