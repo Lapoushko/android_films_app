@@ -219,10 +219,7 @@ private fun ItemsLoad(
 ) {
     LazyColumn {
         items(films) { film ->
-            val isFavourite = remember {
-                mutableStateOf(film.isFavourite)
-            }
-
+            var isFavourite = film.isFavourite
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -248,10 +245,10 @@ private fun ItemsLoad(
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     IconButton(onClick = {
-                        isFavourite.value = !isFavourite.value
-                        viewModel.clickFavourite(filmItem = film, isFavourite = isFavourite.value)
+                        isFavourite = !isFavourite
+                        viewModel.clickFavourite(filmItem = film, isFavourite = isFavourite)
                     }) {
-                        val imageVector = if (isFavourite.value) {
+                        val imageVector = if (isFavourite) {
                             Icons.Outlined.Favorite
                         } else {
                             Icons.Outlined.FavoriteBorder

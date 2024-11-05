@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.android_films_app.presentation.handler.FilmScreenHandler
@@ -93,7 +92,7 @@ fun FavouritesFilmsScreen(
 @Composable
 private fun ContentWithInternet(
     films: List<FilmItem>,
-    viewModel: ViewModel,
+    viewModel: FavouritesFilmsScreenViewModel,
     filmsScreenHandler: FilmsScreenHandlerImpl,
 ) {
     Column(
@@ -110,15 +109,12 @@ private fun ContentWithInternet(
 @Composable
 private fun ItemsLoad(
     films: List<FilmItem>,
-    viewModel: ViewModel,
+    viewModel: FavouritesFilmsScreenViewModel,
     filmsScreenHandler: FilmScreenHandler
 ) {
     LazyColumn {
         items(films) { film ->
-            val isFavourite = remember {
-                mutableStateOf(film.isFavourite)
-            }
-
+            var isFavourite = film.isFavourite
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,10 +140,9 @@ private fun ItemsLoad(
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     IconButton(onClick = {
-                        val newFavouriteStatus = !film.isFavourite
-                        (viewModel as FavouritesFilmsScreenViewModel).clickFavourite(
-                            filmItem = film.copy(isFavourite = newFavouriteStatus),
-                            isFavourite = newFavouriteStatus
+                        isFavourite = !isFavourite
+                        viewModel.clickFavourite(
+                            filmItem = film, isFavourite = isFavourite
                         )
                     }) {
                         val imageVector = if (film.isFavourite) {

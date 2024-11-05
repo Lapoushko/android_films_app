@@ -63,6 +63,7 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
             } else {
                 subscribeFavouriteFilm.delete(domainMapper(filmItem = filmItem))
             }
+            //TODO пофиксить запрос при удалении
             load("")
         }
     }

@@ -34,9 +34,6 @@ class MainViewModel @Inject constructor(
     private val _films: MutableStateFlow<List<FilmItem>> = MutableStateFlow(emptyList())
     val films: StateFlow<List<FilmItem>> = _films.asStateFlow()
 
-    private val _film: MutableStateFlow<FilmItem?> = MutableStateFlow(null)
-    val film: StateFlow<FilmItem?> = _film.asStateFlow()
-
     private val _isNetworkAvailable = MutableStateFlow(false)
     val isNetworkAvailable: StateFlow<Boolean> = _isNetworkAvailable.asStateFlow()
 
@@ -77,6 +74,17 @@ class MainViewModel @Inject constructor(
                 subscribeFavouriteFilm.insert(domainMapper(filmItem = filmItem))
             } else {
                 subscribeFavouriteFilm.delete(domainMapper(filmItem = filmItem))
+            }
+            updateFilmFavouriteStatus(filmItem, isFavourite)
+        }
+    }
+
+    private fun updateFilmFavouriteStatus(filmItem: FilmItem, isFavourite: Boolean) {
+        _films.value = films.value.map { film ->
+            if (film == filmItem) {
+                film.copy(isFavourite = isFavourite)
+            } else {
+                film
             }
         }
     }
