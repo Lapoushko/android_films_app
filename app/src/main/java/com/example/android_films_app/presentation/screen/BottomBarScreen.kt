@@ -22,7 +22,9 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
  * @param navController контроллер навигации
  */
 @Composable
-fun BottomBarScreen(navController: NavHostController) {
+fun BottomBarScreen(
+    navController: NavHostController
+) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

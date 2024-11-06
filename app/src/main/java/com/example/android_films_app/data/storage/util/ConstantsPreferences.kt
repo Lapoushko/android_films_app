@@ -6,6 +6,7 @@ package com.example.android_films_app.data.storage.util
 class ConstantsPreferences {
     companion object{
         const val PREFERENCES_NAME = "PREFRENCES_NAME"
-        const val LAST_QUERY = "LAST_QUERY"
+        const val QUERIES = "LAST_QUERY"
+        const val SEPARATOR = ","
     }
 }

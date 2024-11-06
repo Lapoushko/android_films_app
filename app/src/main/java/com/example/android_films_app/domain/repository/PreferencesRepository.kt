@@ -10,10 +10,15 @@ interface PreferencesRepository {
     /**
      * сохранить сохранения
      */
-    suspend fun savePreferences(query: String)
+    suspend fun savePreferences(queries: List<String>)
 
     /**
      * получить сохранения
      */
-    fun getPreferences() : Flow<String>
+    fun getPreferences() : Flow<List<String>>
+
+    /**
+     * очистить сохранения
+     */
+    suspend fun clearPreferences()
 }

@@ -27,6 +27,7 @@ fun RowScope.AddItem(
     screen: ScreenBar,
     destination: NavDestination?,
     navController: NavHostController,
+    badges: Int = 0
 ) {
     NavigationBarItem(
         selected = destination?.hierarchy?.any {
@@ -48,7 +49,7 @@ fun RowScope.AddItem(
                 } else {
                     screen.unsetIcon
                 } ?: Icons.TwoTone.Info,
-                contentDescription = screen.title
+                contentDescription = screen.title,
             )
         },
         label = {

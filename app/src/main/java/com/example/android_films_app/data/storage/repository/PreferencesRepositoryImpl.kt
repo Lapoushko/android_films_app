@@ -20,21 +20,33 @@ import javax.inject.Inject
 class PreferencesRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : PreferencesRepository {
-    override suspend fun savePreferences(query: String) {
-        context.dataStore.edit { queries ->
-            queries[PreferencesKeys.LAST_QUERY] = query
+    override suspend fun savePreferences(queries: List<String>) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.QUERIES] =
+                preferences[PreferencesKeys.QUERIES] +
+                queries.joinToString(separator = ConstantsPreferences.SEPARATOR) { it }
         }
     }
 
-    override fun getPreferences() : Flow<String> {
+    override fun getPreferences(): Flow<List<String>> {
         return context.dataStore.data.map { preferences ->
-            preferences[PreferencesKeys.LAST_QUERY] ?: ""
+            preferences[PreferencesKeys.QUERIES]?.split(ConstantsPreferences.SEPARATOR)
+                ?: emptyList()
+        }
+    }
+
+    /**
+     * очистить сохранения
+     */
+    override suspend fun clearPreferences() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(ConstantsPreferences.PREFERENCES_NAME)
 
-private object PreferencesKeys{
-    val LAST_QUERY = stringPreferencesKey(ConstantsPreferences.LAST_QUERY)
+private object PreferencesKeys {
+    val QUERIES = stringPreferencesKey(ConstantsPreferences.QUERIES)
 }

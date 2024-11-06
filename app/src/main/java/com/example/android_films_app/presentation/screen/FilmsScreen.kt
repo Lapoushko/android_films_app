@@ -90,10 +90,11 @@ fun FilmsScreen(
                     .padding(paddingValues)
             ) {
                 SearchViewer(
-                    {
-                        textSearch.value = it
+                    onStringChanged = {
+                        textSearch.value = it.last()
                         viewModel.onReloadClick(it)
                     },
+                    onClear = {viewModel.deleteHistory()},
                     textSearch = textSearch.value
                 )
                 if (isNetworkAvailable) {
@@ -133,7 +134,8 @@ private fun ContentWithInternet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchViewer(
-    onStringChanged: (String) -> Unit,
+    onStringChanged: (List<String>) -> Unit,
+    onClear: () -> Unit,
     textSearch: String
 ) {
     var text by remember { mutableStateOf(textSearch) }
@@ -155,7 +157,7 @@ fun SearchViewer(
                 onSearch = {
                     searchHistory.add(text)
                     active = false
-                    onStringChanged(text)
+                    onStringChanged(searchHistory)
                 },
                 active = active,
                 onActiveChange = {
@@ -205,6 +207,7 @@ fun SearchViewer(
                         .fillMaxWidth()
                         .clickable {
                             searchHistory.clear()
+                            onClear()
                         },
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
@@ -282,7 +285,7 @@ private fun ContentWithoutInternet(
         Icon(
             imageVector = Icons.Default.Refresh,
             contentDescription = null,
-            Modifier.clickable { viewModel.onReloadClick(query) }
+            Modifier.clickable { viewModel.onReloadClick(listOf(query)) }
         )
     }
 }

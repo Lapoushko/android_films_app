@@ -6,6 +6,8 @@ import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUse
 import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUseCaseImpl
 import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCase
 import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCaseImpl
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeClearQueriesUseCase
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeClearQueriesUseCaseImpl
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCaseImpl
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeSetQueriesUseCase
@@ -59,13 +61,19 @@ object UsecaseModule {
 
     @Singleton
     @Provides
-    fun provideSubscribeGetQueriesUseCase(repository: PreferencesRepository): SubscribeGetQueriesUseCase{
+    fun provideSubscribeGetQueriesUseCase(repository: PreferencesRepository): SubscribeGetQueriesUseCase {
         return SubscribeGetQueriesUseCaseImpl(repository)
     }
 
     @Singleton
     @Provides
-    fun provideSubscribeSetQueriesUseCase(repository: PreferencesRepository) : SubscribeSetQueriesUseCase{
+    fun provideSubscribeSetQueriesUseCase(repository: PreferencesRepository): SubscribeSetQueriesUseCase {
         return SubscribeSetQueriesUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeClearQueriesUseCase(repository: PreferencesRepository): SubscribeClearQueriesUseCase {
+        return SubscribeClearQueriesUseCaseImpl(repository)
     }
 }

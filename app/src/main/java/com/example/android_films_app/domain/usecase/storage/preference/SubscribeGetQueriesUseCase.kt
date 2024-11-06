@@ -9,13 +9,13 @@ import javax.inject.Inject
  * получить все запросы из data store
  */
 interface SubscribeGetQueriesUseCase {
-    fun getQueries(): Flow<String>
+    fun getQueries(): Flow<List<String>>
 }
 
 class SubscribeGetQueriesUseCaseImpl @Inject constructor(
     private val repository: PreferencesRepository
 ) : SubscribeGetQueriesUseCase {
-    override fun getQueries(): Flow<String> {
+    override fun getQueries(): Flow<List<String>> {
         return repository.getPreferences()
     }
 }

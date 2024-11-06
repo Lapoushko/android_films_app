@@ -44,6 +44,6 @@ fun BottomBar(
 @Composable
 fun BottomBarPreview() {
     BottomBar(
-        navController = rememberNavController()
+        navController = rememberNavController(),
     )
 }

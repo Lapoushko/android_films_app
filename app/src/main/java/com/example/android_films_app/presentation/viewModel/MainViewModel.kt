@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUseCase
 import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCase
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeClearQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeSetQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilm
@@ -33,6 +34,7 @@ class MainViewModel @Inject constructor(
     private val subscribeCheckInternetUseCase: SubscribeCheckInternetUseCase,
     private val subscribeGetQueriesUseCase: SubscribeGetQueriesUseCase,
     private val subscribeSetQueriesUseCase: SubscribeSetQueriesUseCase,
+    private val subscribeClearQueriesUseCase: SubscribeClearQueriesUseCase,
     private val domainMapper: FilmItemToFilmMapper,
     private val uiMapper: FilmToUiItemMapper
 ) : ViewModel() {
@@ -54,7 +56,7 @@ class MainViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "MainViewModel init")
         viewModelScope.launch {
             loadQueries()
-            load(_queries.value[0])
+            load(_queries.value.last())
         }
     }
 
@@ -62,10 +64,10 @@ class MainViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "MainViewModel cleared")
     }
 
-    fun onReloadClick(query: String) {
-        load(query = query)
+    fun onReloadClick(queries: List<String>) {
+        load(query = queries.last())
         viewModelScope.launch {
-            subscribeSetQueriesUseCase.saveQueries(query)
+            subscribeSetQueriesUseCase.saveQueries(queries)
         }
     }
 
@@ -83,19 +85,24 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun deleteHistory(){
+        viewModelScope.launch {
+            subscribeClearQueriesUseCase.clear()
+        }
+    }
+
     private fun load(query: String) {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             _isNetworkAvailable.value = subscribeCheckInternetUseCase.getStatusInternet()
             if (isNetworkAvailable.value) {
                 _films.value = subscribeAllFilmsUseCase.getFilms(query).map { uiMapper(it) }
-                Log.d(Constants.LOG_KEY, _films.value.size.toString())
             }
         }
     }
 
     private suspend fun loadQueries(){
-        _queries.value = listOf(subscribeGetQueriesUseCase.getQueries().first())
+        _queries.value = subscribeGetQueriesUseCase.getQueries().first()
     }
 
     private fun updateFilmFavouriteStatus(filmItem: FilmItem, isFavourite: Boolean) {
