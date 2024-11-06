@@ -56,7 +56,7 @@ class MainViewModel @Inject constructor(
         Log.d(Constants.LOG_KEY, "MainViewModel init")
         viewModelScope.launch {
             loadQueries()
-            load(_queries.value.last())
+            load(_queries.value.lastOrNull() ?: "")
         }
     }
 
@@ -65,7 +65,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun onReloadClick(queries: List<String>) {
-        load(query = queries.last())
+        load(query = queries.lastOrNull() ?: "")
         viewModelScope.launch {
             subscribeSetQueriesUseCase.saveQueries(queries)
         }
