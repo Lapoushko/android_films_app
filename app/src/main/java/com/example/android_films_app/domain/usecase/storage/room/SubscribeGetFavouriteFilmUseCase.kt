@@ -1,4 +1,4 @@
-package com.example.android_films_app.domain.usecase.storage
+package com.example.android_films_app.domain.usecase.storage.room
 
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.domain.repository.FilmsRepository
@@ -18,7 +18,7 @@ interface SubscribeGetFavouriteFilmUseCase{
 
 class SubscribeGetFavouriteFilmUseCaseImpl(
     private val repository: FilmsRepository):
-    SubscribeGetFavouriteFilmUseCase{
+    SubscribeGetFavouriteFilmUseCase {
     /**
      * получить все фильбмы
      * @return фильмы

@@ -68,6 +68,7 @@ fun FilmsScreen(
 ) {
     val isNetworkAvailable by viewModel.isNetworkAvailable.collectAsState()
     val films by viewModel.films.collectAsState()
+
     val textSearch = remember {
         mutableStateOf("")
     }
@@ -88,10 +89,13 @@ fun FilmsScreen(
                 modifier = Modifier
                     .padding(paddingValues)
             ) {
-                SearchViewer {
-                    textSearch.value = it
-                    viewModel.onReloadClick(it)
-                }
+                SearchViewer(
+                    {
+                        textSearch.value = it
+                        viewModel.onReloadClick(it)
+                    },
+                    textSearch = textSearch.value
+                )
                 if (isNetworkAvailable) {
                     ContentWithInternet(
                         films = films,
@@ -105,7 +109,6 @@ fun FilmsScreen(
                     )
                 }
             }
-
         }
     }
 }
@@ -131,8 +134,9 @@ private fun ContentWithInternet(
 @Composable
 fun SearchViewer(
     onStringChanged: (String) -> Unit,
+    textSearch: String
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(textSearch) }
     var active by remember { mutableStateOf(false) }
     val searchHistory = remember { mutableStateListOf("") }
 

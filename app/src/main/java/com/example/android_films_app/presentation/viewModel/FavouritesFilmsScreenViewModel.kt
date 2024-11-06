@@ -3,8 +3,9 @@ package com.example.android_films_app.presentation.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_films_app.domain.usecase.storage.SubscribeFavouriteFilm
-import com.example.android_films_app.domain.usecase.storage.SubscribeGetFavouriteFilmUseCase
+import com.example.android_films_app.domain.repository.PreferencesRepository
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilm
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeGetFavouriteFilmUseCase
 import com.example.android_films_app.presentation.mapper.FilmItemToFilmMapper
 import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
@@ -25,7 +26,8 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
     private val subscribeGetFavouriteFilm: SubscribeGetFavouriteFilmUseCase,
     private val subscribeFavouriteFilm: SubscribeFavouriteFilm,
     private val domainMapper: FilmItemToFilmMapper,
-    private val uiMapper: FilmToUiItemMapper
+    private val uiMapper: FilmToUiItemMapper,
+    preferencesRepository: PreferencesRepository
 ) : ViewModel() {
     private val _films: MutableStateFlow<List<FilmItem>> = MutableStateFlow(emptyList())
     val films: StateFlow<List<FilmItem>> = _films.asStateFlow()
@@ -66,5 +68,9 @@ class FavouritesFilmsScreenViewModel @Inject constructor(
             //TODO пофиксить запрос при удалении
             load("")
         }
+    }
+
+    fun saveSearch(history: List<String>){
+
     }
 }

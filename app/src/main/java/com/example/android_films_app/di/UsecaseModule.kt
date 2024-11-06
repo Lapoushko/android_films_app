@@ -1,14 +1,19 @@
 package com.example.android_films_app.di
 
 import com.example.android_films_app.domain.repository.FilmsRepository
+import com.example.android_films_app.domain.repository.PreferencesRepository
 import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUseCase
 import com.example.android_films_app.domain.usecase.network.SubscribeAllFilmsUseCaseImpl
 import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCase
 import com.example.android_films_app.domain.usecase.network.SubscribeCheckInternetUseCaseImpl
-import com.example.android_films_app.domain.usecase.storage.SubscribeFavouriteFilm
-import com.example.android_films_app.domain.usecase.storage.SubscribeFavouriteFilmImpl
-import com.example.android_films_app.domain.usecase.storage.SubscribeGetFavouriteFilmUseCase
-import com.example.android_films_app.domain.usecase.storage.SubscribeGetFavouriteFilmUseCaseImpl
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCase
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCaseImpl
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeSetQueriesUseCase
+import com.example.android_films_app.domain.usecase.storage.preference.SubscribeSetQueriesUseCaseImpl
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilm
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilmImpl
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeGetFavouriteFilmUseCase
+import com.example.android_films_app.domain.usecase.storage.room.SubscribeGetFavouriteFilmUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,13 +43,6 @@ object UsecaseModule {
     ): SubscribeCheckInternetUseCase {
         return SubscribeCheckInternetUseCaseImpl(repository)
     }
-//    @Singleton
-//    @Provides
-//    fun provideSubscribeFilmUseCase(
-//        repository: FilmsDataRepository
-//    ) : SubscribeFilmUseCase{
-//        return SubscribeFilmUseCaseImpl(repository)
-//    }
 
     @Singleton
     @Provides
@@ -57,5 +55,17 @@ object UsecaseModule {
     fun provideSubscribeGetFavouriteFilmUseCase(repository: FilmsRepository):
             SubscribeGetFavouriteFilmUseCase {
         return SubscribeGetFavouriteFilmUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeGetQueriesUseCase(repository: PreferencesRepository): SubscribeGetQueriesUseCase{
+        return SubscribeGetQueriesUseCaseImpl(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSubscribeSetQueriesUseCase(repository: PreferencesRepository) : SubscribeSetQueriesUseCase{
+        return SubscribeSetQueriesUseCaseImpl(repository)
     }
 }
