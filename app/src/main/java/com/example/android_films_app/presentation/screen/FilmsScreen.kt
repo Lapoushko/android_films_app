@@ -31,6 +31,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -68,9 +69,12 @@ fun FilmsScreen(
 ) {
     val isNetworkAvailable by viewModel.isNetworkAvailable.collectAsState()
     val films by viewModel.films.collectAsState()
+    val queries by viewModel.queries.collectAsState()
 
-    val textSearch = remember {
-        mutableStateOf("")
+    var textSearch by remember { mutableStateOf(queries.lastOrNull() ?: "") }
+
+    LaunchedEffect(queries) {
+        textSearch = queries.lastOrNull() ?: ""
     }
 
     Surface(
@@ -86,16 +90,15 @@ fun FilmsScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
+                modifier = Modifier.padding(paddingValues)
             ) {
                 SearchViewer(
                     onStringChanged = {
-                        textSearch.value = it.last()
+                        textSearch = it.lastOrNull() ?: ""
                         viewModel.onReloadClick(it)
                     },
-                    onClear = {viewModel.deleteHistory()},
-                    textSearch = textSearch.value
+                    onClear = { viewModel.deleteHistory() },
+                    textSearch = textSearch
                 )
                 if (isNetworkAvailable) {
                     ContentWithInternet(
@@ -106,7 +109,7 @@ fun FilmsScreen(
                 } else {
                     ContentWithoutInternet(
                         viewModel = viewModel,
-                        query = textSearch.value
+                        query = textSearch
                     )
                 }
             }
@@ -140,24 +143,30 @@ fun SearchViewer(
 ) {
     var text by remember { mutableStateOf(textSearch) }
     var active by remember { mutableStateOf(false) }
-    val searchHistory = remember { mutableStateListOf("") }
+    val searchHistory = remember { mutableStateListOf<String>() }
+
+    LaunchedEffect(textSearch) {
+        text = textSearch
+    }
 
     Column(
-        modifier = Modifier
-            .padding(horizontal = 10.dp)
+        modifier = Modifier.padding(horizontal = 10.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            SearchBar(modifier = Modifier.fillMaxWidth(),
+            SearchBar(
+                modifier = Modifier.fillMaxWidth(),
                 query = text,
                 onQueryChange = {
                     text = it
                 },
                 onSearch = {
-                    searchHistory.add(text)
+                    if (text.isNotEmpty()) {
+                        searchHistory.add(text)
+                    }
                     active = false
-                    onStringChanged(searchHistory)
+                    onStringChanged(searchHistory.toList())
                 },
                 active = active,
                 onActiveChange = {
