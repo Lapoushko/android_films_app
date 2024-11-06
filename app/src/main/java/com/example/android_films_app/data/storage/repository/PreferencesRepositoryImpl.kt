@@ -22,9 +22,8 @@ class PreferencesRepositoryImpl @Inject constructor(
 ) : PreferencesRepository {
     override suspend fun savePreferences(queries: List<String>) {
         context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.QUERIES] =
-                preferences[PreferencesKeys.QUERIES] +
-                queries.joinToString(separator = ConstantsPreferences.SEPARATOR) { it }
+            preferences[PreferencesKeys.QUERIES] = queries.joinToString(separator = ConstantsPreferences.SEPARATOR) { it }
+
         }
     }
 

@@ -98,7 +98,8 @@ fun FilmsScreen(
                         viewModel.onReloadClick(it)
                     },
                     onClear = { viewModel.deleteHistory() },
-                    textSearch = textSearch
+                    textSearch = textSearch,
+                    history = queries
                 )
                 if (isNetworkAvailable) {
                     ContentWithInternet(
@@ -139,11 +140,17 @@ private fun ContentWithInternet(
 fun SearchViewer(
     onStringChanged: (List<String>) -> Unit,
     onClear: () -> Unit,
-    textSearch: String
+    textSearch: String,
+    history: List<String>
 ) {
     var text by remember { mutableStateOf(textSearch) }
     var active by remember { mutableStateOf(false) }
     val searchHistory = remember { mutableStateListOf<String>() }
+
+    LaunchedEffect(history) {
+        searchHistory.clear()
+        searchHistory.addAll(history)
+    }
 
     LaunchedEffect(textSearch) {
         text = textSearch
