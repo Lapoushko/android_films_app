@@ -3,6 +3,7 @@ package com.example.android_films_app.presentation.navigation.ui
 import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -38,17 +39,20 @@ fun BottomBar(
     val countQueries by viewModel?.countQueries?.collectAsState(initial = 0)
         ?: remember { mutableIntStateOf(0) }
 
+
     NavigationBar {
         items.forEach { screen ->
+            val badges by derivedStateOf { if (screen == ScreenBar.Films) countQueries else 0 }
             AddItem(
                 screen = screen,
                 destination = destination,
                 navController = navController,
-                badges = if (screen == ScreenBar.Films || screen == ScreenBar.Favourite) countQueries else 0
+                badges = badges
             )
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

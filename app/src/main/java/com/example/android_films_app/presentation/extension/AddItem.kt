@@ -1,13 +1,18 @@
 package com.example.android_films_app.presentation.extension
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Info
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,9 +36,7 @@ fun RowScope.AddItem(
     badges: Int = 0
 ) {
     NavigationBarItem(
-        selected = destination?.hierarchy?.any {
-            it.route == screen.route
-        } == true,
+        selected = destination?.hierarchy?.any { it.route == screen.route } == true,
         onClick = {
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
@@ -41,18 +44,31 @@ fun RowScope.AddItem(
             }
         },
         icon = {
-            Icon(
-                imageVector = if (destination?.hierarchy?.any {
-                        it.route == screen.route
-                    } == true
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                BadgedBox(
+                    badge = {
+                        if (badges > 0) {
+                            Badge(
+                                containerColor = Color.Red,
+                                contentColor = Color.Black
+                            ) {
+                                Text("$badges")
+                            }
+                        }
+                    }
                 ) {
-                    screen.setIcon
-                } else {
-                    screen.unsetIcon
-                } ?: Icons.TwoTone.Info,
-                contentDescription = screen.title,
-                tint = if (badges > 0) Color.Red else Color.Black
-            )
+                    Icon(
+                        imageVector = if (destination?.hierarchy?.any { it.route == screen.route } == true) {
+                            screen.setIcon
+                        } else {
+                            screen.unsetIcon
+                        } ?: Icons.TwoTone.Info,
+                        contentDescription = screen.title,
+                    )
+                }
+            }
         },
         label = {
             Text(

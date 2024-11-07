@@ -201,7 +201,19 @@ fun SearchViewer(
                     }
                 }
             ) {
-                searchHistory.forEach {
+                Text(
+                    modifier = Modifier
+                        .padding(all = 14.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            searchHistory.clear()
+                            onClear()
+                        },
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    text = "Очистить историю поиска"
+                )
+                searchHistory.reversed().forEach {
                     if (it.isNotEmpty()) {
                         Row(
                             modifier = Modifier.padding(all = 14.dp),
@@ -215,20 +227,7 @@ fun SearchViewer(
                         }
                     }
                 }
-
                 HorizontalDivider()
-                Text(
-                    modifier = Modifier
-                        .padding(all = 14.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            searchHistory.clear()
-                            onClear()
-                        },
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    text = "Очистить историю поиска"
-                )
             }
         }
     }

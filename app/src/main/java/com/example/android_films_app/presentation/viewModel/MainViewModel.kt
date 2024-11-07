@@ -88,6 +88,7 @@ class MainViewModel @Inject constructor(
     fun deleteHistory(){
         viewModelScope.launch {
             subscribeClearQueriesUseCase.clear()
+//            _queries.value = subscribeGetQueriesUseCase.getQueries().first()
         }
     }
 
