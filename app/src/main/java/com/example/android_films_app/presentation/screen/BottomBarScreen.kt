@@ -36,7 +36,7 @@ fun BottomBarScreen(
         ScreenBar.Films.route,
         ScreenBar.Favourite.route,
         ScreenBar.Home.route,
-        ScreenBar.Notifications.route
+        ScreenBar.Profile.route
     )
 
     val showBottomBar = currentDestination?.route in screens

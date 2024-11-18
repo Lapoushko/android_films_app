@@ -6,13 +6,13 @@ import androidx.navigation.NavHostController
  * @author Lapoushko
  * функции экрана уведомлений
  */
-interface NotificationsScreenHandler {
+interface ProfileScreenHandler {
 }
 
 /**
  * Реализация функций уведомлений
  * @param navController контроллер навигации
  */
-class NotificationsScreenHandlerImpl(navController: NavHostController) :
-    NotificationsScreenHandler {
+class ProfileScreenHandlerImpl(navController: NavHostController) :
+    ProfileScreenHandler {
 }

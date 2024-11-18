@@ -9,13 +9,13 @@ import com.example.android_films_app.presentation.extension.toFormattedUri
 import com.example.android_films_app.presentation.handler.FilmDetailScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.HomeScreenHandlerImpl
-import com.example.android_films_app.presentation.handler.NotificationsScreenHandlerImpl
+import com.example.android_films_app.presentation.handler.ProfileScreenHandlerImpl
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.presentation.screen.FavouritesFilmsScreen
 import com.example.android_films_app.presentation.screen.FilmDetailsScreen
 import com.example.android_films_app.presentation.screen.FilmsScreen
 import com.example.android_films_app.presentation.screen.HomeScreen
-import com.example.android_films_app.presentation.screen.NotificationsScreen
+import com.example.android_films_app.presentation.screen.ProfileScreen
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.screen.model.ScreenFilm
 import com.example.android_films_app.presentation.util.CustomNavType
@@ -77,9 +77,9 @@ fun NavGraph(
                 )
             )
         }
-        composable(route = ScreenBar.Notifications.route) {
-            NotificationsScreen(
-                notificationScreenHandler = NotificationsScreenHandlerImpl(
+        composable(route = ScreenBar.Profile.route) {
+            ProfileScreen(
+                profileScreenHandler = ProfileScreenHandlerImpl(
                     navController = navController
                 )
             )

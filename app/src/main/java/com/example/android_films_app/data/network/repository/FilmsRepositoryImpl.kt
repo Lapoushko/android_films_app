@@ -45,24 +45,28 @@ class FilmsRepositoryImpl @Inject constructor(
         nameSearch: String
     ): List<Film> {
         return withContext(Dispatchers.IO) {
-            val filmsRetrofit = filmService.getFilmsByName(
-                page = page,
-                limit = limit,
-                nameSearch = nameSearch
-            )
-            val filmsResponse =
-                filmsRetrofit.docs?.map { filmRetrofit ->
-                    filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
-                }?.filter { it.name?.isNotEmpty()!! && it.imageUri?.isNotEmpty()!! }
+            try {
+                val filmsRetrofit = filmService.getFilmsByName(
+                    page = page,
+                    limit = limit,
+                    nameSearch = nameSearch
+                )
+                val filmsResponse =
+                    filmsRetrofit.docs?.map { filmRetrofit ->
+                        filmRetrofitMapper.invoke(filmRetrofit = filmRetrofit)
+                    }?.filter { it.name?.isNotEmpty()!! && it.imageUri?.isNotEmpty()!! }
 
-            //если в бд уже есть этот фильм, то заменять его копией с бд
-            val listFromDao = getFilmsFromDao(query = nameSearch)
-            filmsResponse?.map { filmResponse ->
-                val filmDb = filmResponseToDbMapper.invoke(filmResponse = filmResponse)
-                listFromDao.find {
-                    it.description == filmDb.description && it.name == filmDb.name
-                } ?: filmDbToFilmMapper.invoke(filmDb)
-            } ?: emptyList()
+                //если в бд уже есть этот фильм, то заменять его копией с бд
+                val listFromDao = getFilmsFromDao(query = nameSearch)
+                filmsResponse?.map { filmResponse ->
+                    val filmDb = filmResponseToDbMapper.invoke(filmResponse = filmResponse)
+                    listFromDao.find {
+                        it.description == filmDb.description && it.name == filmDb.name
+                    } ?: filmDbToFilmMapper.invoke(filmDb)
+                } ?: emptyList()
+            } catch(e: Exception){
+                emptyList()
+            }
         }
     }
 

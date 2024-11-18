@@ -30,7 +30,7 @@ fun BottomBar(
         ScreenBar.Home,
         ScreenBar.Films,
         ScreenBar.Favourite,
-        ScreenBar.Notifications
+        ScreenBar.Profile
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
