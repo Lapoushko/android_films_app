@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,9 +29,7 @@ class BottomBarScreenViewModel @Inject constructor(
 
     fun load(){
         viewModelScope.launch {
-            subscribeGetQueriesUseCase.getQueries().collect{
-                _countQueries.value = it.size
-            }
+            _countQueries.value = subscribeGetQueriesUseCase.getQueries().first().size
         }
     }
 }
