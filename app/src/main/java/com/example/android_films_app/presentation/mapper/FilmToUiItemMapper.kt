@@ -26,24 +26,26 @@ class FilmToUiItemMapperImpl @Inject constructor() : FilmToUiItemMapper {
         return FilmItem(
             name = film.name.ifEmpty { "Не указано" },
             country = if (film.countries.isEmpty())
-                "Не указаны"
+                "Не указано"
             else film.countries.joinToString(
                 ", "
             ) { it },
             directors = if (film.directors.isEmpty())
-                "Не указаны"
+                "Не указано"
             else film.directors.joinToString(
                 ", "
             ) { it },
-            budget = if (film.budget == 0L) "Не указан" else film.budget.toString(),
+            budget = if (film.budget == 0L) "Не указано" else film.budget.toString(),
             genres = if (film.genres.isEmpty())
-                "Не указаны"
+                "Не указано"
             else film.genres.joinToString(
                 ", "
             ) { it },
             description = film.description.ifEmpty { "Не указано" },
-            imageUri = film.imageUri.toString()
-                .toFormattedUri() // костыль для того, чтобы не ломался маршрут к новому экрану /* TODO починить
+            year = film.year.toString().ifEmpty { "Не указано" },
+            imageUri = film.imageUri
+                .toFormattedUri(), // костыль для того, чтобы не ломался маршрут к новому экрану /* TODO починить
+            isFavourite = film.isFavourite
         )
     }
 }

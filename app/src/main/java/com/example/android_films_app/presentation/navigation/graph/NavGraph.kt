@@ -6,13 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.android_films_app.presentation.extension.toFormattedUri
-import com.example.android_films_app.presentation.handler.FavouritesScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmDetailScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.HomeScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.NotificationsScreenHandlerImpl
 import com.example.android_films_app.presentation.model.FilmItem
-import com.example.android_films_app.presentation.screen.FavouritesScreen
+import com.example.android_films_app.presentation.screen.FavouritesFilmsScreen
 import com.example.android_films_app.presentation.screen.FilmDetailsScreen
 import com.example.android_films_app.presentation.screen.FilmsScreen
 import com.example.android_films_app.presentation.screen.HomeScreen
@@ -57,8 +56,10 @@ fun NavGraph(
                     genres = film.film.genres,
                     description = film.film.description,
                     budget = film.film.budget,
+                    year = film.film.year,
                     imageUri = film.film.imageUri.toString()
-                        .toFormattedUri(oldChar = '\\', newChar = '/')
+                        .toFormattedUri(oldChar = '\\', newChar = '/'),
+                    isFavourite = film.film.isFavourite
                 )
             )
         }
@@ -70,8 +71,8 @@ fun NavGraph(
             )
         }
         composable(route = ScreenBar.Favourite.route) {
-            FavouritesScreen(
-                favouritesScreenHandler = FavouritesScreenHandlerImpl(
+            FavouritesFilmsScreen(
+                filmsScreenHandler = FilmsScreenHandlerImpl(
                     navController = navController
                 )
             )

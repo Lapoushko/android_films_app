@@ -1,6 +1,5 @@
 package com.example.android_films_app.data.network.mapper
 
-import android.net.Uri
 import com.example.android_films_app.data.network.entity.FilmResponse
 import com.example.android_films_app.data.network.entity.retrofit.FilmRetrofit
 import javax.inject.Inject
@@ -23,7 +22,8 @@ class FilmRetrofitToResponseMapperImpl @Inject constructor() : FilmRetrofitToRes
             budget = filmRetrofit.budget?.value,
             genres = filmRetrofit.genres?.map { it.name.toString() },
             description = filmRetrofit.description,
-            imageUri = filmRetrofit.poster?.previewUrl?.let { Uri.parse(it) } ?: Uri.EMPTY
+            year = filmRetrofit.year,
+            imageUri = filmRetrofit.poster?.previewUrl ?: ""
         )
     }
 }

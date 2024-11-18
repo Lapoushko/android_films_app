@@ -1,60 +1,57 @@
 package com.example.android_films_app.data.storage.dao
 
-import com.example.android_films_app.data.storage.data.ExampleLocalData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.android_films_app.data.storage.entity.FilmDb
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
 /**
  * @author Lapoushko
  *
  * интерфейс для работы с бд(пример)
  */
+@Dao
 interface FilmsDao {
     /**
      * Получить все фильмы
      * @return все фильмы
      */
-    suspend fun getFilms(): Flow<List<FilmDb>>
+    @Query("SELECT * FROM films WHERE :query = '' OR name LIKE '%' || :query || '%'")
+    suspend fun getFilms(query: String): List<FilmDb>
 
     /**
      * Вставка нового фильма
      */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFilm(filmDb: FilmDb)
 
-//    /**
-//     * Фильмы по айди
-//     * @param id айди фильма
-//     * @return фильм
-//     */
-//    suspend fun getFilm(id: Long): Flow<FilmDb>
+    /**
+     * Удалить фильм
+     */
+    @Query("DELETE FROM films WHERE name = :name AND description = :description")
+    suspend fun deleteFilm(name: String, description: String)
 }
 
-/**
- * Пример реализации
- */
-class FilmsDaoImpl @Inject constructor() : FilmsDao {
-    private val films = ExampleLocalData().films
-
-    override suspend fun getFilms(): Flow<List<FilmDb>> {
-        return flow {
-            films
-            emit(films)
-        }
-    }
-
-    override suspend fun insertFilm(filmDb: FilmDb) {
-        films.add(filmDb)
-    }
-
-//    override suspend fun getFilm(id: Long): Flow<FilmDb> {
-//        return flow {
-//            val films = exampleLocalData.films
-//            val foundFilm = films.find { it.id == id }
-//            if (foundFilm != null) {
-//                emit(foundFilm)
-//            }
-//        }
+///**
+// * Пример реализации
+// */
+//class FilmsDaoImpl @Inject constructor() : FilmsDao {
+//    private val films = ExampleLocalData().films
+//
+//    override suspend fun getFilms(query: String): List<FilmDb> {
+//        return films
 //    }
-}
+//
+//    override suspend fun insertFilm(filmDb: FilmDb) {
+//        films.add(filmDb)
+//    }
+//
+//    /**
+//     * Удалить фильм
+//     */
+//    override suspend fun deleteFilm(filmDb: FilmDb) {
+//        Log.d(Constants.LOG_KEY, (films[0] == filmDb).toString())
+//        films.remove(filmDb)
+//    }
+//}

@@ -20,7 +20,7 @@ sealed class ScreenBar(
     val route: String,
     val title: String? = null,
     val setIcon: ImageVector? = null,
-    val unsetIcon: ImageVector? = null
+    val unsetIcon: ImageVector? = null,
 ){
     /**
      * Экран фильмов
@@ -29,7 +29,7 @@ sealed class ScreenBar(
         route = FILMS_ROUTE,
         title = FILMS_TITLE,
         setIcon = FILMS_SET_ICON,
-        unsetIcon = FILMS_UNSET_ICON
+        unsetIcon = FILMS_UNSET_ICON,
     )
 
     /**

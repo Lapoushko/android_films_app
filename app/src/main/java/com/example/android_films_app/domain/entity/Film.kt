@@ -1,7 +1,5 @@
 package com.example.android_films_app.domain.entity
 
-import android.net.Uri
-
 /**
  * @author Lapoushko
  *
@@ -21,5 +19,7 @@ class Film(
     val budget: Long,
     val genres: List<String>,
     val description: String,
-    val imageUri: Uri
+    val year: Int,
+    val imageUri: String,
+    val isFavourite: Boolean
 )
