@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.android_films_app.domain.repository.PreferencesRepository
 import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilm
 import com.example.android_films_app.domain.usecase.storage.room.SubscribeGetFavouriteFilmUseCase
-import com.example.android_films_app.presentation.mapper.FilmItemToFilmMapper
-import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
+import com.example.android_films_app.presentation.mapper.film.FilmItemToFilmMapper
+import com.example.android_films_app.presentation.mapper.film.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,11 +1,14 @@
 package com.example.android_films_app.data.storage.entity
 
+import kotlinx.serialization.Serializable
+
 /**
  * @author Lapoushko
  */
-class UserData(
-    val name: String?,
-    val description: String?,
-    val photo: String?,
-    val resume: String?
+@Serializable
+data class UserData(
+    val name: String? = null,
+    val description: String? = null,
+    val photo: String? = null,
+    val resume: String? = null
 )

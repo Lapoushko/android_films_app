@@ -1,4 +1,4 @@
-package com.example.android_films_app.presentation.mapper
+package com.example.android_films_app.presentation.mapper.film
 
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.presentation.extension.toFormattedUri

@@ -9,8 +9,8 @@ import com.example.android_films_app.domain.usecase.storage.preference.Subscribe
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeGetQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.preference.SubscribeSetQueriesUseCase
 import com.example.android_films_app.domain.usecase.storage.room.SubscribeFavouriteFilm
-import com.example.android_films_app.presentation.mapper.FilmItemToFilmMapper
-import com.example.android_films_app.presentation.mapper.FilmToUiItemMapper
+import com.example.android_films_app.presentation.mapper.film.FilmItemToFilmMapper
+import com.example.android_films_app.presentation.mapper.film.FilmToUiItemMapper
 import com.example.android_films_app.presentation.model.FilmItem
 import com.example.android_films_app.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel

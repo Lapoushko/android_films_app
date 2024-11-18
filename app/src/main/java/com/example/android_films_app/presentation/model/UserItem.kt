@@ -5,9 +5,9 @@ import android.net.Uri
 /**
  * @author Lapoushko
  */
-class UserItem(
+data class UserItem(
     val name: String,
     val description: String,
     val photoUrl: Uri,
-    val resumeUri: Uri
+    val resumeUrl: Uri
 )

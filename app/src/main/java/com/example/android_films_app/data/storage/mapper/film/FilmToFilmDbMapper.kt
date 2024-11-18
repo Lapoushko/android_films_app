@@ -1,4 +1,4 @@
-package com.example.android_films_app.data.storage.mapper
+package com.example.android_films_app.data.storage.mapper.film
 
 import com.example.android_films_app.data.storage.entity.FilmDb
 import com.example.android_films_app.domain.entity.Film
@@ -16,7 +16,7 @@ interface FilmToFilmDbMapper {
     operator fun invoke(film: Film) : FilmDb
 }
 
-class FilmToFilmDbMapperImpl @Inject constructor() : FilmToFilmDbMapper{
+class FilmToFilmDbMapperImpl @Inject constructor() : FilmToFilmDbMapper {
     override fun invoke(film: Film): FilmDb {
         return FilmDb(
             id = null,

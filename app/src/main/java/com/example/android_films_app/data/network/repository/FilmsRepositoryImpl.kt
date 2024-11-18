@@ -5,8 +5,8 @@ import com.example.android_films_app.data.network.mapper.FilmRetrofitToResponseM
 import com.example.android_films_app.data.network.service.FilmService
 import com.example.android_films_app.data.network.util.InternetChecker
 import com.example.android_films_app.data.storage.dao.FilmsDao
-import com.example.android_films_app.data.storage.mapper.FilmToFilmDbMapper
-import com.example.android_films_app.data.storage.mapper.FilmsDbToFilmsMapper
+import com.example.android_films_app.data.storage.mapper.film.FilmToFilmDbMapper
+import com.example.android_films_app.data.storage.mapper.film.FilmsDbToFilmsMapper
 import com.example.android_films_app.domain.entity.Film
 import com.example.android_films_app.domain.repository.FilmsRepository
 import kotlinx.coroutines.Dispatchers

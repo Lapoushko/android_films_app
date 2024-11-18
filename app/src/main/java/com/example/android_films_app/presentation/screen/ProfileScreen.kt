@@ -26,18 +26,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.android_films_app.presentation.handler.ProfileScreenHandler
 import com.example.android_films_app.presentation.handler.ProfileScreenHandlerImpl
 import com.example.android_films_app.presentation.model.UserItem
 import com.example.android_films_app.presentation.screen.model.ScreenBar
+import com.example.android_films_app.presentation.viewModel.ProfileScreenViewModel
 
 /**
  * @author Lapoushko
@@ -48,8 +51,9 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
 @Composable
 fun ProfileScreen(
     profileScreenHandler: ProfileScreenHandler,
+    viewModel: ProfileScreenViewModel = hiltViewModel()
 ) {
-    val userItem = UserItem(name = "имя", description = "описание", photoUrl = Uri.EMPTY, resumeUri = Uri.EMPTY)
+    val userItem = viewModel.user.collectAsState().value
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -71,11 +75,14 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ProfilePictureButton(userItem.photoUrl)
+                ProfilePictureButton(photoUrl = userItem?.photoUrl,
+                    onToEdit = {
+                        profileScreenHandler.onToEdit()
+                    })
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ProfileInfoSection(userItem)
+                ProfileInfoSection(userItem!!)
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -86,7 +93,10 @@ fun ProfileScreen(
 }
 
 @Composable
-fun ProfilePictureButton(photoUrl: Uri?) {
+fun ProfilePictureButton(
+    photoUrl: Uri?,
+    onToEdit: () -> Unit
+) {
     Box(
         modifier = Modifier
             .size(120.dp)
@@ -96,15 +106,15 @@ fun ProfilePictureButton(photoUrl: Uri?) {
     ) {
         AsyncImage(
             model = photoUrl,
-            contentDescription = "Profile Picture",
+            contentDescription = null,
             modifier = Modifier.size(100.dp),
             contentScale = ContentScale.Crop
         )
 
-        IconButton(onClick = { /* Handle picture change */ }) {
+        IconButton(onClick = { onToEdit() }) {
             Icon(
                 imageVector = Icons.Filled.Edit,
-                contentDescription = "Edit Profile Picture",
+                contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )
         }

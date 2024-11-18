@@ -6,11 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.android_films_app.presentation.extension.toFormattedUri
+import com.example.android_films_app.presentation.handler.EditProfileScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmDetailScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.FilmsScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.HomeScreenHandlerImpl
 import com.example.android_films_app.presentation.handler.ProfileScreenHandlerImpl
 import com.example.android_films_app.presentation.model.FilmItem
+import com.example.android_films_app.presentation.screen.EditProfileScreen
 import com.example.android_films_app.presentation.screen.FavouritesFilmsScreen
 import com.example.android_films_app.presentation.screen.FilmDetailsScreen
 import com.example.android_films_app.presentation.screen.FilmsScreen
@@ -18,6 +20,7 @@ import com.example.android_films_app.presentation.screen.HomeScreen
 import com.example.android_films_app.presentation.screen.ProfileScreen
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.screen.model.ScreenFilm
+import com.example.android_films_app.presentation.screen.model.ScreenUser
 import com.example.android_films_app.presentation.util.CustomNavType
 import kotlin.reflect.typeOf
 
@@ -82,6 +85,11 @@ fun NavGraph(
                 profileScreenHandler = ProfileScreenHandlerImpl(
                     navController = navController
                 )
+            )
+        }
+        composable(route = ScreenUser.Screen.route) {
+            EditProfileScreen(
+                handler = EditProfileScreenHandlerImpl(navController = navController)
             )
         }
     }

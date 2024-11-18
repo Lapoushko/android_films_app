@@ -1,4 +1,4 @@
-package com.example.android_films_app.data.storage.mapper
+package com.example.android_films_app.data.storage.mapper.film
 
 import com.example.android_films_app.data.storage.entity.FilmDb
 import com.example.android_films_app.domain.entity.Film
