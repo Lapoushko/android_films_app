@@ -17,7 +17,7 @@ interface FilmService {
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 5,
         @Query("query") nameSearch: String,
-        @Query("token") token: String = ""
+        @Query("token") token: String = "YG8DG9Y-R4H49YY-JYFGKNE-0V4JJZ9"
     ): ListFilmRetrofit
 
 //    @GET("/v1.4/movie/{id}")
