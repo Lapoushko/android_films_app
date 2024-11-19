@@ -43,6 +43,8 @@ fun EditProfileScreen(
     viewModel: EditProfileScreenViewModel = hiltViewModel(),
     handler: EditProfileScreenHandler
 ) {
+//    val _isClickPicture = viewModel._isClickPicture
+    val viewState = viewModel.viewState
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -73,7 +75,7 @@ fun EditProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             TextFieldOption(
-                text = viewModel._name,
+                text = viewState.name,
                 onTextChange = {
                     viewModel.updateUsername(it)
                 },
@@ -81,7 +83,7 @@ fun EditProfileScreen(
             )
 
             TextFieldOption(
-                text = viewModel._description,
+                text =  viewState.description,
                 onTextChange = {
                     viewModel.updateDescription(it)
                 },
@@ -89,7 +91,7 @@ fun EditProfileScreen(
             )
 
             TextFieldOption(
-                text = viewModel._resumeUrl.toString(),
+                text = viewState.resumeUrl.toString(),
                 onTextChange = {
                     viewModel.updateResumeUrl(it)
                 },

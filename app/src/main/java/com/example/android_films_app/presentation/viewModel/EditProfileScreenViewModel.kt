@@ -10,6 +10,7 @@ import com.example.android_films_app.domain.usecase.storage.proto.SubscribeEditU
 import com.example.android_films_app.presentation.extension.toFormattedUri
 import com.example.android_films_app.presentation.mapper.user.UserItemToUserMapper
 import com.example.android_films_app.presentation.model.UserItem
+import com.example.android_films_app.presentation.state.EditProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,39 +23,43 @@ class EditProfileScreenViewModel @Inject constructor(
     private val subscribeEditUserUseCase: SubscribeEditUserUseCase,
     private val userItemToUserMapper: UserItemToUserMapper,
 ) : ViewModel() {
-    var _name by mutableStateOf("")
-        private set
+    private val _viewState = MutableEditProfileState()
+    val viewState = _viewState as EditProfileScreenState
+
     fun updateUsername(input: String) {
-        _name = input
+        _viewState.name = input
     }
 
-    var _description by mutableStateOf("")
-        private set
     fun updateDescription(input: String) {
-        _description = input
+        _viewState.description = input
     }
 
-    var _photoUrl by mutableStateOf(Uri.EMPTY)
-        private set
     fun updatePhotoUrl(input: String) {
-        _photoUrl = input.toFormattedUri()
+        _viewState.photoUrl = input.toFormattedUri()
     }
 
-    var _resumeUrl by mutableStateOf(Uri.EMPTY)
-        private set
     fun updateResumeUrl(input: String) {
-        _resumeUrl = input.toFormattedUri()
+        _viewState.resumeUrl = input.toFormattedUri()
     }
 
     fun save() {
         viewModelScope.launch {
             val user = UserItem(
-                name = _name,
-                description = _description,
-                photoUrl = _photoUrl,
-                resumeUrl = _resumeUrl
+                name = viewState.name,
+                description = viewState.description,
+                photoUrl = viewState.photoUrl,
+                resumeUrl = viewState.resumeUrl
             )
             subscribeEditUserUseCase.edit(userItemToUserMapper.invoke(user))
         }
+    }
+
+    private class MutableEditProfileState : EditProfileScreenState {
+        override var photoUrl: Uri by mutableStateOf(Uri.EMPTY)
+        override var name by mutableStateOf("")
+        override var description: String by mutableStateOf("")
+        override var resumeUrl: Uri by mutableStateOf(Uri.EMPTY)
+        override var isNeedToShowPermission by mutableStateOf(false)
+        override var isNeedToShowSelect: Boolean by mutableStateOf(false)
     }
 }

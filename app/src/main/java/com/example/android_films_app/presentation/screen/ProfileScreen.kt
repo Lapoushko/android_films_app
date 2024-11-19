@@ -143,7 +143,7 @@ fun ProfileInfoSection(userItem: UserItem) {
 @Composable
 fun ResumeButton() {
     Button(
-        onClick = { /* Handle resume button click */ },
+        onClick = { /* TODO скачивание */ },
         modifier = Modifier.width(200.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
