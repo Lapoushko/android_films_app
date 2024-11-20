@@ -4,11 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person4
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Person4
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -20,7 +20,7 @@ sealed class ScreenBar(
     val route: String,
     val title: String? = null,
     val setIcon: ImageVector? = null,
-    val unsetIcon: ImageVector? = null
+    val unsetIcon: ImageVector? = null,
 ){
     /**
      * Экран фильмов
@@ -29,7 +29,7 @@ sealed class ScreenBar(
         route = FILMS_ROUTE,
         title = FILMS_TITLE,
         setIcon = FILMS_SET_ICON,
-        unsetIcon = FILMS_UNSET_ICON
+        unsetIcon = FILMS_UNSET_ICON,
     )
 
     /**
@@ -54,11 +54,11 @@ sealed class ScreenBar(
     /**
      * Экран уведомлений
      */
-    data object Notifications : ScreenBar(
-        route = NOTIFICATIONS_ROUTE,
-        title = NOTIFICATIONS_TITLE,
-        setIcon = NOTIFICATIONS_SET_ICON,
-        unsetIcon = NOTIFICATIONS_UNSET_ICON
+    data object Profile : ScreenBar(
+        route = PROFILE_ROUTE,
+        title = PROFILE_TITLE,
+        setIcon = PROFILE_SET_ICON,
+        unsetIcon = PROFILE_UNSET_ICON
     )
 
     companion object{
@@ -77,9 +77,9 @@ sealed class ScreenBar(
         private val FAVOURITE_SET_ICON = Icons.Filled.Favorite
         private val FAVOURITE_UNSET_ICON = Icons.Outlined.FavoriteBorder
 
-        private const val NOTIFICATIONS_ROUTE = "NOTIFICATIONS_ROUTE"
-        private const val NOTIFICATIONS_TITLE = "Уведомления"
-        private val NOTIFICATIONS_SET_ICON = Icons.Filled.Notifications
-        private val NOTIFICATIONS_UNSET_ICON = Icons.Outlined.Notifications
+        private const val PROFILE_ROUTE = "PROFILE_ROUTE"
+        private const val PROFILE_TITLE = "Профиль"
+        private val PROFILE_SET_ICON = Icons.Filled.Person4
+        private val PROFILE_UNSET_ICON = Icons.Outlined.Person4
     }
 }

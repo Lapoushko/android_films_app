@@ -8,12 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.android_films_app.presentation.navigation.graph.NavGraph
 import com.example.android_films_app.presentation.navigation.ui.BottomBar
 import com.example.android_films_app.presentation.screen.model.ScreenBar
+import com.example.android_films_app.presentation.viewModel.BottomBarScreenViewModel
 
 /**
  * @author Lapoushko
@@ -22,7 +24,10 @@ import com.example.android_films_app.presentation.screen.model.ScreenBar
  * @param navController контроллер навигации
  */
 @Composable
-fun BottomBarScreen(navController: NavHostController) {
+fun BottomBarScreen(
+    navController: NavHostController,
+    viewModel: BottomBarScreenViewModel = hiltViewModel()
+) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -31,7 +36,7 @@ fun BottomBarScreen(navController: NavHostController) {
         ScreenBar.Films.route,
         ScreenBar.Favourite.route,
         ScreenBar.Home.route,
-        ScreenBar.Notifications.route
+        ScreenBar.Profile.route
     )
 
     val showBottomBar = currentDestination?.route in screens
@@ -43,6 +48,7 @@ fun BottomBarScreen(navController: NavHostController) {
             if (showBottomBar) {
                 BottomBar(
                     navController = navController,
+                    viewModel = viewModel
                 )
             }
         }
