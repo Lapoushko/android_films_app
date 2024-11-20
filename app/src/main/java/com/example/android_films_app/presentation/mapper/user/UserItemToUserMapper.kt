@@ -1,7 +1,6 @@
 package com.example.android_films_app.presentation.mapper.user
 
 import com.example.android_films_app.domain.entity.User
-import com.example.android_films_app.presentation.extension.toFormattedString
 import com.example.android_films_app.presentation.model.UserItem
 import javax.inject.Inject
 
@@ -26,8 +25,8 @@ class UserItemToUserMapperImpl @Inject constructor() : UserItemToUserMapper{
         return User(
             name = userItem.name,
             description = userItem.description,
-            photo = userItem.photoUrl.toFormattedString(),
-            resume = userItem.resumeUrl.toFormattedString()
+            photo = userItem.photoUrl.toString(),
+            resume = userItem.resumeUrl.toString()
         )
     }
 }

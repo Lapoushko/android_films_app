@@ -1,5 +1,6 @@
 package com.example.android_films_app.presentation.screen
 
+import android.app.DownloadManager
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,19 +27,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.android_films_app.R
 import com.example.android_films_app.presentation.handler.ProfileScreenHandler
 import com.example.android_films_app.presentation.handler.ProfileScreenHandlerImpl
-import com.example.android_films_app.presentation.model.UserItem
+import com.example.android_films_app.presentation.receiver.BroadcastReceiverScreen
 import com.example.android_films_app.presentation.screen.model.ScreenBar
 import com.example.android_films_app.presentation.viewModel.ProfileScreenViewModel
 
@@ -53,7 +56,20 @@ fun ProfileScreen(
     profileScreenHandler: ProfileScreenHandler,
     viewModel: ProfileScreenViewModel = hiltViewModel()
 ) {
-    val userItem = viewModel.user.collectAsState().value
+    val userState = viewModel.userState
+    val context = LocalContext.current
+
+    BroadcastReceiverScreen(
+        systemAction = ACCESS,
+        onSystemEvent = { intent ->
+            if (intent?.action == ACCESS) {
+                val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L)
+                if (id != -1L) {
+                    viewModel.open(context)
+                }
+            }
+        })
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -75,18 +91,21 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ProfilePictureButton(photoUrl = userItem?.photoUrl,
+                ProfilePictureButton(
+                    photoUrl = userState.photoUrl,
                     onToEdit = {
                         profileScreenHandler.onToEdit()
                     })
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ProfileInfoSection(userItem!!)
+                ProfileInfoSection(userState.name, userState.description)
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                ResumeButton()
+                ResumeButton(onClickDownload = {
+                    viewModel.download(userState.resumeUrl, context = context)
+                })
             }
         }
     }
@@ -107,8 +126,11 @@ fun ProfilePictureButton(
         AsyncImage(
             model = photoUrl,
             contentDescription = null,
-            modifier = Modifier.size(100.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(128.dp),
+            error = painterResource(R.drawable.camera)
         )
 
         IconButton(onClick = { onToEdit() }) {
@@ -122,10 +144,13 @@ fun ProfilePictureButton(
 }
 
 @Composable
-fun ProfileInfoSection(userItem: UserItem) {
+fun ProfileInfoSection(
+    name: String,
+    description: String
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = userItem.name,
+            text = name,
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -133,7 +158,7 @@ fun ProfileInfoSection(userItem: UserItem) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = userItem.description,
+            text = description,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -141,9 +166,13 @@ fun ProfileInfoSection(userItem: UserItem) {
 }
 
 @Composable
-fun ResumeButton() {
+fun ResumeButton(
+    onClickDownload: () -> Unit
+) {
     Button(
-        onClick = { /* TODO скачивание */ },
+        onClick = {
+            onClickDownload()
+        },
         modifier = Modifier.width(200.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
@@ -154,6 +183,8 @@ fun ResumeButton() {
         )
     }
 }
+
+private const val ACCESS = "android.intent.action.DOWNLOAD_COMPLETE"
 
 @Preview(showBackground = true)
 @Composable
