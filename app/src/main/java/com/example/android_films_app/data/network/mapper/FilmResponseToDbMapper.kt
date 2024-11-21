@@ -30,6 +30,7 @@ class FilmResponseToDbMapperImpl @Inject constructor() : FilmResponseToDbMapper 
             directors = filmResponse.directors,
             budget = filmResponse.budget,
             genres = filmResponse.genres,
+            year = filmResponse.year,
             imageUri = filmResponse.imageUri
         )
     }

@@ -27,6 +27,8 @@ data class FilmItem(
     val budget: String,
     val genres: String,
     val description: String,
+    val year: String,
     @Serializable(with = URISerializer::class)
-    val imageUri: Uri
+    val imageUri: Uri,
+    val isFavourite: Boolean
 ) : Parcelable

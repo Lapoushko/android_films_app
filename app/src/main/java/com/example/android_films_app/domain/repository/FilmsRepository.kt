@@ -1,7 +1,6 @@
 package com.example.android_films_app.domain.repository
 
 import com.example.android_films_app.domain.entity.Film
-import kotlinx.coroutines.flow.Flow
 
 /**
  * @author Lapoushko
@@ -13,17 +12,26 @@ interface FilmsRepository{
      * Получить все фильмы
      * @return Flow всех фильмов domain
      */
-    suspend fun getFilms(): Flow<List<Film>>
+    suspend fun getFilms(query: String): List<Film>
 
     /**
      * получить статут интернета
      * @return текущий статус
      */
-    suspend fun getStatusInternet(): Flow<Boolean>
+    suspend fun getStatusInternet(): Boolean
 
-//    /**
-//     * Получить фильм domain
-//     * @return Flow фильма domain
-//     */
-//    suspend fun getFilm(id: Long): Flow<Film>
+    /**
+     * Вставить фильм в базу данных
+     */
+    suspend fun insertFilm(film: Film)
+
+    /**
+     * Удалить фильм
+     */
+    suspend fun deleteFilm(film: Film)
+
+    /**
+     * Фильмы из дао
+     */
+    suspend fun getFilmsFromDao(query: String) : List<Film>
 }
