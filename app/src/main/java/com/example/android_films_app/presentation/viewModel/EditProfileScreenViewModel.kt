@@ -1,6 +1,12 @@
 package com.example.android_films_app.presentation.viewModel
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,10 +18,15 @@ import com.example.android_films_app.presentation.extension.toFormattedString
 import com.example.android_films_app.presentation.mapper.user.UserItemToUserMapper
 import com.example.android_films_app.presentation.mapper.user.UserToUserItemMapper
 import com.example.android_films_app.presentation.model.UserItem
+import com.example.android_films_app.presentation.receiver.NotificationReceiver
 import com.example.android_films_app.presentation.state.EditProfileScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -28,6 +39,7 @@ class EditProfileScreenViewModel @Inject constructor(
     private val subscribeEditUserUseCase: SubscribeEditUserUseCase,
     private val userToUserItemMapper: UserToUserItemMapper,
     private val userItemToUserMapper: UserItemToUserMapper,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _viewState = MutableEditProfileState()
     val viewState = _viewState as EditProfileScreenState
@@ -92,6 +104,7 @@ class EditProfileScreenViewModel @Inject constructor(
                 )
                 subscribeEditUserUseCase.edit(userItemToUserMapper.invoke(user))
                 onToBack()
+                saveAlarm()
             }
         }
     }
@@ -115,6 +128,38 @@ class EditProfileScreenViewModel @Inject constructor(
             _viewState.timerError = null
         } catch (e: Exception){
             _viewState.timerError = e.toString()
+        }
+    }
+
+    private fun saveAlarm(){
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val dateTime = LocalDateTime.of(LocalDate.now(), viewState.timer)
+        val timeInMillis = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        val notifyIntent = Intent(context, NotificationReceiver::class.java)
+
+        notifyIntent.putExtras(
+            Bundle().apply {
+                putString("NOTIFICATION", "Сработало уведомление")
+            }
+        )
+
+        val notifyPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            notifyIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        try {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                timeInMillis,
+                notifyPendingIntent
+            )
+        } catch (e: SecurityException) {
+            Log.e("alarmManager", "Failed to set reminder")
         }
     }
 
